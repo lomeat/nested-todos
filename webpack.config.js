@@ -42,7 +42,7 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      template: "./src/index-template.html",
+      template: "./src/template.html",
     }),
   ],
 };
