@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
+import { Todo } from "./Todo";
+
 export const App = () => {
   const [todos, setTodos] = useState({
     list: [
@@ -29,7 +31,7 @@ export const App = () => {
   // toggle complete state of one todo
   // and move to down of list if completed
   // or move to up of list if uncompleted
-  const handleClickTodoTitleButton = (todo) => {
+  const toggleIsTodoComplete = (todo) => {
     if (todo.isComplete) {
       setTodos((state) => ({
         list: [...state.list, { ...todo, isComplete: false }],
@@ -38,7 +40,7 @@ export const App = () => {
     } else {
       setTodos((state) => ({
         list: state.list.filter((item) => item.id !== todo.id),
-        completed: [...state.completed, { ...todo, isComplete: true }],
+        completed: [{ ...todo, isComplete: true }, ...state.completed],
       }));
     }
   };
@@ -47,18 +49,18 @@ export const App = () => {
     <Wrapper>
       <Container>
         {todos.list.map((todo) => (
-          <div key={todo.id}>
-            <Title onClick={() => handleClickTodoTitleButton(todo)}>
-              {todo.title}
-            </Title>
-          </div>
+          <Todo
+            todo={todo}
+            key={todo.id}
+            toggleIsComplete={toggleIsTodoComplete}
+          />
         ))}
         {todos.completed.map((todo) => (
-          <div key={todo.id}>
-            <Title onClick={() => handleClickTodoTitleButton(todo)} isComplete>
-              {todo.title}
-            </Title>
-          </div>
+          <Todo
+            todo={todo}
+            key={todo.id}
+            toggleIsComplete={toggleIsTodoComplete}
+          />
         ))}
       </Container>
     </Wrapper>
@@ -76,15 +78,4 @@ const Wrapper = styled.div`
 const Container = styled.div`
   width: 700px;
   padding: 10px;
-`;
-
-const Title = styled.h2`
-  text-decoration: ${(props) => (props.isComplete ? "underline" : "none")};
-  cursor: pointer;
-  transition: 0.1s ease;
-  padding: 4px;
-  border-radius: 4px;
-  :hover {
-    background: #eee;
-  }
 `;
