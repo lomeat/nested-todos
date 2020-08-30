@@ -1,15 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 import { TodoTree } from "./TodoTree";
 
-export const Todo = ({ todo, nestedLevel, toggleIsComplete }) => {
+export const Todo = ({ todo, nestedLevel, toggleIsComplete, addNewTodo }) => {
   let newNestedLevel = nestedLevel + 1;
 
   return (
     <>
-      <Wrapper key={todo.id} onClick={() => toggleIsComplete(todo)}>
-        <Title isComplete={todo.isComplete}>{todo.title}</Title>
+      <Wrapper key={todo.id}>
+        <Title
+          isComplete={todo.isComplete}
+          onClick={() => toggleIsComplete(todo)}
+        >
+          {todo.title}
+        </Title>
+        {nestedLevel < 3 && !todo.isComplete && (
+          <Add onClick={() => addNewTodo(todo)}>Add</Add>
+        )}
       </Wrapper>
       <ListLeftMargin>
         {(todo.children.list || todo.children.completed) &&
@@ -27,6 +35,8 @@ const Wrapper = styled.div`
   padding: 4px;
   border-radius: 4px;
   transition: 0.1s ease;
+  display: flex;
+  justify-content: space-between;
   :hover {
     background: #eee;
   }
@@ -37,6 +47,12 @@ const Title = styled.span`
   font-size: 24px;
 `;
 
+const Add = styled.button`
+  :hover {
+    cursor: pointer;
+  }
+`;
+
 const ListLeftMargin = styled.div`
-  margin-left: 10px;
+  margin-left: 20px;
 `;
