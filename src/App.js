@@ -1,67 +1,82 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-import { Todo } from "./Todo";
+import { TodoList } from "./TodoList";
+import { todosMock } from "./mock";
 
 export const App = () => {
-  const [todos, setTodos] = useState({
-    list: [
-      {
-        id: 1,
-        title: "Do homework",
-        isComplete: false,
-        children: [],
-      },
-      {
-        id: 2,
-        title: "Buy milk",
-        isComplete: false,
-        children: [],
-      },
-      {
-        id: 3,
-        title: "Get an offer",
-        isComplete: false,
-        children: [],
-      },
-    ],
-    completed: [],
-  });
+  const [todos, setTodos] = useState(todosMock);
 
-  // toggle complete state of one todo
-  // and move to down of list if completed
-  // or move to up of list if uncompleted
-  const toggleIsTodoComplete = (todo) => {
-    if (todo.isComplete) {
-      setTodos((state) => ({
-        list: [...state.list, { ...todo, isComplete: false }],
-        completed: state.completed.filter((item) => item.id !== todo.id),
-      }));
+  // Toggle complete state of one todo
+  // if complete: move todo to up of line-throughed completed list
+  // else: move todo to down of usual idle todo list
+  const toggleIsTodoComplete = (todo, parent) => {
+    if (parent === null) {
+      if (todo.isComplete) {
+        setTodos((state) => ({
+          list: [...state.list, { ...todo, isComplete: false }],
+          completed: state.completed.filter((item) => item.id !== todo.id),
+        }));
+      } else {
+        setTodos((state) => ({
+          list: state.list.filter((item) => item.id !== todo.id),
+          completed: [{ ...todo, isComplete: true }, ...state.completed],
+        }));
+      }
     } else {
-      setTodos((state) => ({
-        list: state.list.filter((item) => item.id !== todo.id),
-        completed: [{ ...todo, isComplete: true }, ...state.completed],
-      }));
+      // Сделать как перемещается знаю parent и todo отмеченные элемент внутри вложенности через list и completd используя стейт или фор
+      if (todo.isComplete) {
+        setTodos((state) => ({
+          list: [
+            ...state.list,
+            {
+              ...parent,
+              todos: [...parent.todos.list, { ...todo, isComplete: false }],
+            },
+          ],
+          completed: [
+            ...state.completed,
+            {
+              ...parent,
+              todos: [
+                ...parent.todos.completed.filter((item) => item.id !== todo.id),
+              ],
+            },
+          ],
+        }));
+      } else {
+        setTodos((state) => ({
+          list: [
+            ...state.list,
+            {
+              ...parent,
+              todos: [
+                ...parent.todos.list.filter((item) => item.id !== todo.id),
+              ],
+            },
+          ],
+          completed: [
+            ...state.completed,
+            {
+              ...parent,
+              todos: [...parent.todos.completed, { ...todo, isComplete: true }],
+            },
+          ],
+        }));
+      }
     }
   };
+
+  console.log(todos);
 
   return (
     <Wrapper>
       <Container>
-        {todos.list.map((todo) => (
-          <Todo
-            todo={todo}
-            key={todo.id}
-            toggleIsComplete={toggleIsTodoComplete}
-          />
-        ))}
-        {todos.completed.map((todo) => (
-          <Todo
-            todo={todo}
-            key={todo.id}
-            toggleIsComplete={toggleIsTodoComplete}
-          />
-        ))}
+        <TodoList
+          parent={null}
+          todos={todos}
+          toggleIsComplete={toggleIsTodoComplete}
+        />
       </Container>
     </Wrapper>
   );

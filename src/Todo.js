@@ -1,16 +1,27 @@
 import React from "react";
 import styled from "styled-components";
 
-export const Todo = ({ todo, toggleIsComplete }) => {
+import { TodoList } from "./TodoList";
+
+export const Todo = ({ parent, todo, toggleIsComplete }) => {
   return (
-    <Wrapper key={todo.id}>
-      <Title
-        isComplete={todo.isComplete}
-        onClick={() => toggleIsComplete(todo)}
-      >
-        {todo.title}
-      </Title>
-    </Wrapper>
+    <>
+      <Wrapper key={todo.id}>
+        <Title
+          isComplete={todo.isComplete}
+          onClick={() => toggleIsComplete(todo, parent)}
+        >
+          {todo.title}
+        </Title>
+      </Wrapper>
+      {(todo.todos.list || todo.todos.completed) && (
+        <TodoList
+          parent={todo}
+          todos={todo.todos}
+          toggleIsComplete={toggleIsComplete}
+        />
+      )}
+    </>
   );
 };
 
