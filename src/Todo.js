@@ -3,26 +3,49 @@ import styled from "styled-components";
 
 import { TodoTree } from "./TodoTree";
 
-export const Todo = ({ todo, nestedLevel, toggleIsComplete, addNewTodo }) => {
-  let newNestedLevel = nestedLevel + 1;
+export const Todo = ({ todo, nestedLevel, toggleIsComplete }) => {
+  const newNestedLevel = nestedLevel + 1;
+  const [state, setState] = useState(todo);
+
+  const addNewTodo = () => {
+    const newTodo = {
+      id: Math.floor(Math.random() * Date.now()),
+      title: "New Todo",
+      isComplete: false,
+      children: {},
+    };
+
+    if (!state.isComplete) {
+      const prevList = state.children.list;
+      setState((state) => ({
+        ...state,
+        children: {
+          list: prevList ? [...state.children.list, newTodo] : [newTodo],
+          completed: prevList ? [...state.children.completed] : [],
+        },
+      }));
+    }
+  };
+
+  console.log(state);
 
   return (
     <>
-      <Wrapper key={todo.id}>
+      <Wrapper key={state.id}>
         <Title
-          isComplete={todo.isComplete}
-          onClick={() => toggleIsComplete(todo)}
+          isComplete={state.isComplete}
+          onClick={() => toggleIsComplete(state)}
         >
-          {todo.title}
+          {state.title}
         </Title>
-        {nestedLevel < 3 && !todo.isComplete && (
-          <Add onClick={() => addNewTodo(todo)}>Add</Add>
+        {nestedLevel < 3 && !state.isComplete && (
+          <Add onClick={() => addNewTodo(state)}>Add</Add>
         )}
       </Wrapper>
       <ListLeftMargin>
-        {(todo.children.list || todo.children.completed) &&
+        {(state.children.list || state.children.completed) &&
           newNestedLevel <= 3 && (
-            <TodoTree nestedLevel={newNestedLevel} children={todo.children} />
+            <TodoTree nestedLevel={newNestedLevel} children={state.children} />
           )}
       </ListLeftMargin>
     </>
