@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-import { TodoList } from "./TodoList";
+import { TodoTree } from "./TodoTree";
 import { todosMock } from "./mock";
 
 export const App = () => {
   return (
     <Wrapper>
       <Container>
-        <TodoList todos={todosMock} nestedLevel={0} />
+        <TodoTree children={todosMock} nestedLevel={0} parent={null} />
       </Container>
     </Wrapper>
   );

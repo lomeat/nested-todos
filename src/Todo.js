@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-import { TodoList } from "./TodoList";
+import { TodoTree } from "./TodoTree";
 
-export const Todo = ({ todo, nestedLevel }) => {
+export const Todo = ({ parent, todo, nestedLevel }) => {
   const [state, setState] = useState(todo);
   let newNestedLevel = nestedLevel + 1;
 
@@ -23,9 +23,14 @@ export const Todo = ({ todo, nestedLevel }) => {
         <Title isComplete={state.isComplete}>{state.title}</Title>
       </Wrapper>
       <ListLeftMargin>
-        {(state.todos.list || state.todos.completed) && newNestedLevel <= 3 && (
-          <TodoList nestedLevel={newNestedLevel} todos={state.todos} />
-        )}
+        {(state.children.list || state.children.completed) &&
+          newNestedLevel <= 3 && (
+            <TodoTree
+              parent={state}
+              nestedLevel={newNestedLevel}
+              children={state.children}
+            />
+          )}
       </ListLeftMargin>
     </>
   );

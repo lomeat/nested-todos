@@ -4,31 +4,31 @@ export const todosMock = {
       id: 1,
       title: "Do homework",
       isComplete: false,
-      todos: [],
+      children: [],
     },
     {
       id: 2,
       title: "Make an app",
       isComplete: false,
-      todos: {
+      children: {
         list: [
           {
             id: 4,
             title: "Create a list",
             isComplete: false,
-            todos: {
+            children: {
               list: [
                 {
                   id: 6,
                   title: "Add 1 item",
                   isComplete: false,
-                  todos: {
+                  children: {
                     list: [
                       {
                         id: 7,
                         title: "Image ideal title name",
                         isComplete: false,
-                        todos: [],
+                        children: [],
                       },
                     ],
                     completed: [],
@@ -42,7 +42,7 @@ export const todosMock = {
             id: 5,
             title: "Add button to remove todo",
             isComplete: false,
-            todos: [],
+            children: [],
           },
         ],
         completed: [],
@@ -53,7 +53,7 @@ export const todosMock = {
       id: 3,
       title: "Get an offer",
       isComplete: false,
-      todos: [],
+      children: [],
     },
   ],
   completed: [],
