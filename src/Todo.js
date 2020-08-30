@@ -1,51 +1,37 @@
-import React, { useState } from "react";
+import React, { usetodo } from "react";
 import styled from "styled-components";
 
 import { TodoTree } from "./TodoTree";
 
-export const Todo = ({ todo, nestedLevel, toggleIsComplete }) => {
+export const Todo = ({
+  todo,
+  nestedLevel,
+  toggleIsComplete,
+  removeTodo,
+  addNewTodo,
+}) => {
   const newNestedLevel = nestedLevel + 1;
-  const [state, setState] = useState(todo);
-
-  const addNewTodo = () => {
-    const newTodo = {
-      id: Math.floor(Math.random() * Date.now()),
-      title: "New Todo",
-      isComplete: false,
-      children: {},
-    };
-
-    if (!state.isComplete) {
-      const prevList = state.children.list;
-      setState((state) => ({
-        ...state,
-        children: {
-          list: prevList ? [...state.children.list, newTodo] : [newTodo],
-          completed: prevList ? [...state.children.completed] : [],
-        },
-      }));
-    }
-  };
-
-  console.log(state);
 
   return (
     <>
-      <Wrapper key={state.id}>
+      <Wrapper key={todo.id}>
         <Title
-          isComplete={state.isComplete}
-          onClick={() => toggleIsComplete(state)}
+          isComplete={todo.isComplete}
+          onClick={() => toggleIsComplete(todo)}
         >
-          {state.title}
+          {todo.title}
         </Title>
-        {nestedLevel < 3 && !state.isComplete && (
-          <Add onClick={() => addNewTodo(state)}>Add</Add>
+        {todo.isComplete && (
+          <Remove onClick={() => removeTodo(todo)}>Remove</Remove>
+        )}
+        {nestedLevel < 3 && !todo.isComplete && (
+          <Add onClick={() => addNewTodo(todo)}>Add</Add>
         )}
       </Wrapper>
       <ListLeftMargin>
-        {(state.children.list || state.children.completed) &&
+        {(todo.children.list || todo.children.completed) &&
           newNestedLevel <= 3 && (
-            <TodoTree nestedLevel={newNestedLevel} children={state.children} />
+            <TodoTree nestedLevel={newNestedLevel} children={todo.children} />
           )}
       </ListLeftMargin>
     </>
@@ -71,6 +57,12 @@ const Title = styled.span`
 `;
 
 const Add = styled.button`
+  :hover {
+    cursor: pointer;
+  }
+`;
+
+const Remove = styled.button`
   :hover {
     cursor: pointer;
   }
