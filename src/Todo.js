@@ -1,35 +1,20 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 
 import { TodoTree } from "./TodoTree";
 
-export const Todo = ({ parent, todo, nestedLevel }) => {
-  const [state, setState] = useState(todo);
+export const Todo = ({ todo, nestedLevel, toggleIsComplete }) => {
   let newNestedLevel = nestedLevel + 1;
-
-  // Toggle complete state of one todo
-  // if complete: move todo to up of line-throughed completed list
-  // else: move todo to down of usual idle todo list
-  const toggleIsComplete = () => {
-    setState((state) => ({
-      ...state,
-      isComplete: !state.isComplete,
-    }));
-  };
 
   return (
     <>
-      <Wrapper key={state.id} onClick={() => toggleIsComplete(state)}>
-        <Title isComplete={state.isComplete}>{state.title}</Title>
+      <Wrapper key={todo.id} onClick={() => toggleIsComplete(todo)}>
+        <Title isComplete={todo.isComplete}>{todo.title}</Title>
       </Wrapper>
       <ListLeftMargin>
-        {(state.children.list || state.children.completed) &&
+        {(todo.children.list || todo.children.completed) &&
           newNestedLevel <= 3 && (
-            <TodoTree
-              parent={state}
-              nestedLevel={newNestedLevel}
-              children={state.children}
-            />
+            <TodoTree nestedLevel={newNestedLevel} children={todo.children} />
           )}
       </ListLeftMargin>
     </>

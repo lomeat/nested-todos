@@ -26,9 +26,9 @@ export const todosMock = {
                     list: [
                       {
                         id: 7,
-                        title: "Image ideal title name",
+                        title: "Imagine ideal title name",
                         isComplete: false,
-                        children: [],
+                        children: {},
                       },
                     ],
                     completed: [],
