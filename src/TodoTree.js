@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import { Todo } from "./Todo";
 
-export const TodoTree = ({ nestedLevel, children }) => {
+export const TodoTree = ({ nestedLevel = 0, children }) => {
   const [todos, setTodos] = useState(children);
 
   // Toggle complete state of one todo

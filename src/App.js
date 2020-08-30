@@ -8,7 +8,7 @@ export const App = () => {
   return (
     <Wrapper>
       <Container>
-        <TodoTree children={todosMock} nestedLevel={0} />
+        <TodoTree children={todosMock} />
       </Container>
     </Wrapper>
   );
