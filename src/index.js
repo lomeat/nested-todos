@@ -3,6 +3,8 @@ import { render } from "react-dom";
 import "normalize.css";
 import { createGlobalStyle } from "styled-components";
 
+import { App } from "./App";
+
 const GlobalStyle = createGlobalStyle`
   * {
     user-select: none;
@@ -10,8 +12,6 @@ const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
   }
 `;
-
-import { App } from "./App";
 
 render(
   <>

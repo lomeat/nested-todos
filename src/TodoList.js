@@ -3,29 +3,15 @@ import styled from "styled-components";
 
 import { Todo } from "./Todo";
 
-export const TodoList = ({ parent, todos, toggleIsComplete }) => {
+export const TodoList = ({ nestedLevel, todos }) => {
   return (
-    <Wrapper>
+    <>
       {todos.list.map((todo) => (
-        <Todo
-          parent={parent}
-          key={todo.id}
-          todo={todo}
-          toggleIsComplete={toggleIsComplete}
-        />
+        <Todo key={todo.id} todo={todo} nestedLevel={nestedLevel} />
       ))}
       {todos.completed.map((todo) => (
-        <Todo
-          parent={parent}
-          key={todo.id}
-          todo={todo}
-          toggleIsComplete={toggleIsComplete}
-        />
+        <Todo key={todo.id} todo={todo} nestedLevel={nestedLevel} />
       ))}
-    </Wrapper>
+    </>
   );
 };
-
-const Wrapper = styled.div`
-  margin-left: 10px;
-`;

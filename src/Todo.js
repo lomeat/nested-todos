@@ -1,26 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 import { TodoList } from "./TodoList";
 
-export const Todo = ({ parent, todo, toggleIsComplete }) => {
+export const Todo = ({ todo, nestedLevel }) => {
+  const [state, setState] = useState(todo);
+  let newNestedLevel = nestedLevel + 1;
+
+  // Toggle complete state of one todo
+  // if complete: move todo to up of line-throughed completed list
+  // else: move todo to down of usual idle todo list
+  const toggleIsComplete = () => {
+    setState((state) => ({
+      ...state,
+      isComplete: !state.isComplete,
+    }));
+  };
+
   return (
     <>
-      <Wrapper key={todo.id}>
-        <Title
-          isComplete={todo.isComplete}
-          onClick={() => toggleIsComplete(todo, parent)}
-        >
-          {todo.title}
-        </Title>
+      <Wrapper key={state.id} onClick={() => toggleIsComplete(state)}>
+        <Title isComplete={state.isComplete}>{state.title}</Title>
       </Wrapper>
-      {(todo.todos.list || todo.todos.completed) && (
-        <TodoList
-          parent={todo}
-          todos={todo.todos}
-          toggleIsComplete={toggleIsComplete}
-        />
-      )}
+      <ListLeftMargin>
+        {(state.todos.list || state.todos.completed) && newNestedLevel <= 3 && (
+          <TodoList nestedLevel={newNestedLevel} todos={state.todos} />
+        )}
+      </ListLeftMargin>
     </>
   );
 };
@@ -39,4 +45,8 @@ const Wrapper = styled.div`
 const Title = styled.span`
   text-decoration: ${(props) => (props.isComplete ? "line-through" : "none")};
   font-size: 24px;
+`;
+
+const ListLeftMargin = styled.div`
+  margin-left: 10px;
 `;
