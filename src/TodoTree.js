@@ -1,14 +1,19 @@
 import React, { useState } from "react";
-import styled from "styled-components";
 
 import { Todo } from "./Todo";
 
 export const TodoTree = ({ nestedLevel = 0, children }) => {
   const [todos, setTodos] = useState(children);
 
-  // Toggle complete state of one todo
-  // if complete: move todo to up of line-throughed completed list
-  // else: move todo to down of usual idle todo list
+  // WD:
+  //  Toggle complete state of one todo
+  //  if click when completed: move todo to up of line-throughed completed list
+  //  else: move todo to down of usual idle todo list
+  // HW:
+  //  When click on uncompleted todo return new state with adding element to list[]
+  //  and filtered completed[] without clicked todo
+  //  When click on completed todo return new state with filtered list[] without clicked todo
+  //  and adding element to completed[]
   const toggleIsTodoComplete = (todo) => {
     if (todo.isComplete) {
       setTodos((state) => ({
@@ -23,6 +28,8 @@ export const TodoTree = ({ nestedLevel = 0, children }) => {
     }
   };
 
+  // WD: Remove clicked todo from outer tree
+  // HW: If todo is complete return state with filtered completed[] without clicked todo
   const removeTodo = (todo) => {
     if (todo.isComplete) {
       setTodos((state) => ({
@@ -32,6 +39,9 @@ export const TodoTree = ({ nestedLevel = 0, children }) => {
     }
   };
 
+  // WD: Add new todo to inner tree of clicked element
+  // HW: If todo is uncompleted return previous state with
+  //     and adding new template todo to inner tree of clicked todo
   const addNewTodo = (todo) => {
     const newTodo = {
       id: Math.floor(Math.random() * Date.now()),
@@ -48,6 +58,7 @@ export const TodoTree = ({ nestedLevel = 0, children }) => {
           {
             ...todo,
             children: {
+              // If todo.children object is empty, create new arrays to "list" and "completed" keys
               list: todo.children.list
                 ? [...todo.children.list, newTodo]
                 : [newTodo],

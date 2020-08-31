@@ -10,7 +10,10 @@ export const Todo = ({
   removeTodo,
   addNewTodo,
 }) => {
+  // Recursive count the level of nested lists...
   const newNestedLevel = nestedLevel + 1;
+  // ...to make limit
+  const nestedLimit = 3;
 
   return (
     <>
@@ -24,13 +27,13 @@ export const Todo = ({
         {todo.isComplete && (
           <Remove onClick={() => removeTodo(todo)}>Remove</Remove>
         )}
-        {nestedLevel < 3 && !todo.isComplete && (
+        {nestedLevel < nestedLimit && !todo.isComplete && (
           <Add onClick={() => addNewTodo(todo)}>Add</Add>
         )}
       </Wrapper>
       <ListLeftMargin>
         {(todo.children.list || todo.children.completed) &&
-          newNestedLevel <= 3 && (
+          newNestedLevel <= nestedLimit && (
             <TodoTree nestedLevel={newNestedLevel} children={todo.children} />
           )}
       </ListLeftMargin>
