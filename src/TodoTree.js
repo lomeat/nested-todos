@@ -5,15 +5,13 @@ import { Todo } from "./Todo";
 export const TodoTree = ({ nestedLevel = 0, children }) => {
   const [todos, setTodos] = useState(children);
 
-  // WD:
-  //  Toggle complete state of one todo
-  //  if click when completed: move todo to up of line-throughed completed list
-  //  else: move todo to down of usual idle todo list
-  // HW:
-  //  When click on uncompleted todo return new state with adding element to list[]
-  //  and filtered completed[] without clicked todo
-  //  When click on completed todo return new state with filtered list[] without clicked todo
-  //  and adding element to completed[]
+  // WD: Toggle complete state of one todo
+  //     if click when completed: move todo to up of line-throughed completed list
+  //     else: move todo to down of usual idle todo list
+  // HW: When click on completed todo return new state with adding element to list[]
+  //     and filtered completed[] without clicked todo
+  //     When click on uncompleted todo return new state with filtered list[] without clicked todo
+  //     and adding element to completed[]
   const toggleIsTodoComplete = (todo) => {
     if (todo.isComplete) {
       setTodos((state) => ({
@@ -28,7 +26,7 @@ export const TodoTree = ({ nestedLevel = 0, children }) => {
     }
   };
 
-  // WD: Remove clicked todo from outer tree
+  // WD: Remove exist todo from list
   // HW: If todo is complete return state with filtered completed[] without clicked todo
   const removeTodo = (todo) => {
     if (todo.isComplete) {
@@ -39,7 +37,7 @@ export const TodoTree = ({ nestedLevel = 0, children }) => {
     }
   };
 
-  // WD: Add new todo to inner tree of clicked element
+  // WD: Add new todo to exist todo
   // HW: If todo is uncompleted return previous state with
   //     and adding new template todo to inner tree of clicked todo
   const addNewTodo = (todo) => {
