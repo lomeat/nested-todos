@@ -2,20 +2,12 @@ import React, { useState } from "react";
 import styled from "styled-components";
 
 import { TodoTree } from "./TodoTree";
-import todosMock from "./mock";
+import { todosMock, newElement } from "./mock";
 
 export const App = () => {
   const [todos, setTodos] = useState(todosMock);
 
   const updateTodos = (todos, id, action, newTodos = {}, temp = {}) => {
-    const newElement = {
-      id: Math.random() * Date.now(),
-      title: "New todo",
-      isComplete: false,
-      isShowChildren: true,
-      children: [],
-    };
-
     for (let a in todos) {
       if (a === "children") {
         newTodos[a] = todos[a];
@@ -61,7 +53,7 @@ export const App = () => {
       }
     }
 
-    if (!id && action === "add") {
+    if (!id && action === "add-global") {
       temp = { children: [...newTodos.children, { ...newElement }] };
     }
 
@@ -76,8 +68,10 @@ export const App = () => {
     updateTodos(todos, todo.id, "toggle-children");
   };
 
-  const addNewTodo = (todo = null) => {
-    updateTodos(todos, todo.id, "add");
+  const addNewTodo = (todo = null, type = "add") => {
+    if (todo && !todo.isComplete) {
+      updateTodos(todos, todo.id, type);
+    }
   };
 
   const removeTodo = (todo) => {
@@ -93,8 +87,11 @@ export const App = () => {
   return (
     <Wrapper>
       <Container>
+        <Title>Nested Todo App</Title>
         <ButtonsWrapper>
-          <AddNewTodoButton onClick={addNewTodo}>Add New Todo</AddNewTodoButton>
+          <AddNewTodoButton onClick={() => addNewTodo(null, "add-global")}>
+            Add New Todo
+          </AddNewTodoButton>
           <RemoveAllButton onClick={removeAllTodos}>Remove All</RemoveAllButton>
         </ButtonsWrapper>
         <TreeWrapper>
@@ -127,13 +124,15 @@ const Container = styled.div`
   align-items: center;
 `;
 
+const Title = styled.h1``;
+
 const TreeWrapper = styled.div`
   width: 100%;
 `;
 
 const ButtonsWrapper = styled.div`
   display: flex;
-  padding-bottom: 40px;
+  padding: 40px;
 `;
 
 const Button = styled.button`

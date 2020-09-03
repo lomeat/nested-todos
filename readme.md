@@ -1,4 +1,4 @@
-# Digital Spectr Test - Nested Todo List
+# Nested Todo App
 
 Live project: https://digital-spectr.vercel.app
 

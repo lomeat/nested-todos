@@ -1,4 +1,12 @@
-export default {
+export const newElement = {
+  id: Math.random() * Date.now(),
+  title: "New todo",
+  isComplete: false,
+  isShowChildren: true,
+  children: [],
+};
+
+export const todosMock = {
   children: [
     {
       id: 13453,
@@ -47,7 +55,7 @@ export default {
     },
     {
       id: 3123,
-      title: "Get an apple",
+      title: "Get an offer",
       isComplete: false,
       isShowChildren: true,
       children: [

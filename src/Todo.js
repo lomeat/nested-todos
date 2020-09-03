@@ -16,6 +16,23 @@ export const Todo = ({
   // ...to make limit
   const nestedLimit = 3;
 
+  const [isRemoveModalOpen, setIsRemoveModal] = useState(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+
+  const toggleRemoveModalVisibility = (todo = null) => {
+    setIsRemoveModal((state) => !state);
+    if (todo) {
+      removeTodo(todo);
+    }
+  };
+
+  const toggleAddModalVisibility = (todo = null) => {
+    setIsAddModalOpen((state) => !state);
+    if (todo) {
+      addNewTodo(todo);
+    }
+  };
+
   return (
     <>
       <Wrapper key={todo.id}>
@@ -34,13 +51,16 @@ export const Todo = ({
             </ToggleChildrenButton>
           )}
           {todo.isComplete && (
-            <RemoveButton onClick={() => removeTodo(todo)}>Remove</RemoveButton>
+            <RemoveButton onClick={toggleRemoveModalVisibility}>
+              Remove
+            </RemoveButton>
           )}
           {nestedLevel < nestedLimit && !todo.isComplete && (
-            <AddButton onClick={() => addNewTodo(todo)}>Add</AddButton>
+            <AddButton onClick={toggleAddModalVisibility}>Add</AddButton>
           )}
         </ButtonsWrapper>
       </Wrapper>
+
       <ListLeftMargin>
         {todo.children &&
           newNestedLevel <= nestedLimit &&
@@ -55,6 +75,33 @@ export const Todo = ({
             />
           )}
       </ListLeftMargin>
+
+      {isRemoveModalOpen && (
+        <ModalOuter onClick={toggleRemoveModalVisibility}>
+          <ModalInner>
+            <h2>Are you sure?</h2>
+            <div>
+              <button onClick={() => toggleRemoveModalVisibility(todo)}>
+                yes
+              </button>
+              <button onClick={toggleRemoveModalVisibility}>no</button>
+            </div>
+          </ModalInner>
+        </ModalOuter>
+      )}
+      {isAddModalOpen && (
+        <ModalOuter onClick={toggleAddModalVisibility}>
+          <ModalInner>
+            <h2>Do you want to add new todo?</h2>
+            <div>
+              <button onClick={() => toggleAddModalVisibility(todo)}>
+                yes
+              </button>
+              <button onClick={toggleAddModalVisibility}>no</button>
+            </div>
+          </ModalInner>
+        </ModalOuter>
+      )}
     </>
   );
 };
@@ -99,4 +146,31 @@ const RemoveButton = styled(Button)``;
 
 const ListLeftMargin = styled.div`
   margin-left: 20px;
+`;
+
+const ModalOuter = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  box-sizing: border-box;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+`;
+
+const ModalInner = styled.div`
+  z-index: 5;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 500px;
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 `;
