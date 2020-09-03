@@ -1,5 +1,5 @@
-export const todosMock = {
-  list: [
+export default {
+  children: [
     {
       id: 1,
       title: "Do homework",
@@ -10,45 +10,35 @@ export const todosMock = {
       id: 2,
       title: "Make an app",
       isComplete: false,
-      children: {
-        list: [
-          {
-            id: 4,
-            title: "Create a list",
-            isComplete: false,
-            children: {
-              list: [
+      children: [
+        {
+          id: 4,
+          title: "Create a list",
+          isComplete: false,
+          children: [
+            {
+              id: 6,
+              title: "Add 1 item",
+              isComplete: false,
+              children: [
                 {
-                  id: 6,
-                  title: "Add 1 item",
+                  id: 7,
+                  title: "Imagine ideal title name",
                   isComplete: false,
-                  children: {
-                    list: [
-                      {
-                        id: 7,
-                        title: "Imagine ideal title name",
-                        isComplete: false,
-                        children: {},
-                      },
-                    ],
-                    completed: [],
-                  },
+                  children: [],
                 },
               ],
-              completed: [],
             },
-          },
-          {
-            id: 5,
-            title: "Add button to remove todo",
-            isComplete: false,
-            children: [],
-          },
-        ],
-        completed: [],
-      },
+          ],
+        },
+        {
+          id: 5,
+          title: "Add button to remove todo",
+          isComplete: false,
+          children: [],
+        },
+      ],
     },
-
     {
       id: 3,
       title: "Get an offer",
@@ -56,5 +46,4 @@ export const todosMock = {
       children: [],
     },
   ],
-  completed: [],
 };
