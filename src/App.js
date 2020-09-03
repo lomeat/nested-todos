@@ -45,8 +45,19 @@ export const App = () => {
                 break;
             }
           }
+          // else {
+          //   switch (action) {
+          //     case "remove-all":
+          //       newTodos = {};
+          //       break;
+          //   }
+          // }
 
-          updateTodos(todos[a][b], id, action, newTodos[a][b], temp);
+          if (action === "remove-all") newTodos = { children: [] };
+
+          if (newTodos[a].length) {
+            updateTodos(todos[a][b], id, action, newTodos[a][b], temp);
+          }
           temp = { ...newTodos };
         }
       }
@@ -73,9 +84,14 @@ export const App = () => {
     }
   };
 
+  const removeAllTodos = () => {
+    updateTodos(todos, null, "remove-all");
+  };
+
   return (
     <Wrapper>
       <Container>
+        <RemoveAllButton onClick={removeAllTodos}>Remove All</RemoveAllButton>
         <TodoTree
           children={todos.children}
           addNewTodo={addNewTodo}
@@ -99,4 +115,10 @@ const Wrapper = styled.div`
 const Container = styled.div`
   width: 700px;
   padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;
+
+const RemoveAllButton = styled.button``;
