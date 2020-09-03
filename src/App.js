@@ -97,13 +97,15 @@ export const App = () => {
           <AddNewTodoButton onClick={addNewTodo}>Add New Todo</AddNewTodoButton>
           <RemoveAllButton onClick={removeAllTodos}>Remove All</RemoveAllButton>
         </ButtonsWrapper>
-        <TodoTree
-          children={todos.children}
-          addNewTodo={addNewTodo}
-          toggleIsTodoComplete={toggleIsTodoComplete}
-          toggleIsTodoShowChildren={toggleIsTodoShowChildren}
-          removeTodo={removeTodo}
-        />
+        <TreeWrapper>
+          <TodoTree
+            children={todos.children}
+            addNewTodo={addNewTodo}
+            toggleIsTodoComplete={toggleIsTodoComplete}
+            toggleIsTodoShowChildren={toggleIsTodoShowChildren}
+            removeTodo={removeTodo}
+          />
+        </TreeWrapper>
       </Container>
     </Wrapper>
   );
@@ -123,13 +125,27 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+`;
+
+const TreeWrapper = styled.div`
+  width: 100%;
 `;
 
 const ButtonsWrapper = styled.div`
   display: flex;
+  padding-bottom: 40px;
 `;
 
-const AddNewTodoButton = styled.button``;
+const Button = styled.button`
+  margin-left: 10px;
+  :first-child {
+    margin-left: 0;
+  }
+  :hover {
+    cursor: pointer;
+  }
+`;
 
-const RemoveAllButton = styled.button``;
+const AddNewTodoButton = styled(Button)``;
+
+const RemoveAllButton = styled(Button)``;
