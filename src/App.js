@@ -32,20 +32,16 @@ export const App = () => {
                   temp[key][anotherKey] = toggledElement;
                   break;
                 case "remove":
-                  temp[key] = todos[key].filter((todo) => todo.id !== id);
+                  temp[key] = temp[key].filter((todo) => todo.id !== id);
                   break;
                 case "add":
                   temp[key][anotherKey].children.push(newElement);
                   break;
-                default:
-                  temp[key][anotherKey] = todos[key][anotherKey];
-                  break;
               }
             }
 
-            newTodos = { ...temp };
-
             bruteforce(todos[key][anotherKey], temp[key][anotherKey], action);
+            newTodos = { ...temp };
           }
         }
       }

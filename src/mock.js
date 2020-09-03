@@ -43,7 +43,14 @@ export default {
       id: 3,
       title: "Get an apple",
       isComplete: false,
-      children: [],
+      children: [
+        {
+          id: 10,
+          title: "Buy an apple",
+          isComplete: false,
+          children: [],
+        },
+      ],
     },
   ],
 };
