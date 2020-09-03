@@ -7,12 +7,12 @@ import todosMock from "./mock";
 export const App = () => {
   const [todos, setTodos] = useState(todosMock);
 
-  const updateTodos = (todos, id, action, temp = {}, newTodos = {}) => {
-    for (let key in todos) {
-      if (key === "children") {
-        temp[key] = todos[key];
-        for (let anotherKey in todos[key]) {
-          const element = todos[key][anotherKey];
+  const updateTodos = (todos, id, action, newTodos = {}, temp = {}) => {
+    for (let a in todos) {
+      if (a === "children") {
+        newTodos[a] = todos[a];
+        for (let b in todos[a]) {
+          const element = todos[a][b];
           const toggledCompletedElement = {
             ...element,
             isComplete: !element.isComplete,
@@ -32,33 +32,27 @@ export const App = () => {
           if (element.id === id) {
             switch (action) {
               case "toggle-complete":
-                temp[key][anotherKey] = toggledCompletedElement;
+                newTodos[a][b] = toggledCompletedElement;
                 break;
               case "toggle-children":
-                temp[key][anotherKey] = toggledChildrenElement;
+                newTodos[a][b] = toggledChildrenElement;
                 break;
               case "remove":
-                temp[key] = temp[key].filter((todo) => todo.id !== id);
+                newTodos[a] = newTodos[a].filter((todo) => todo.id !== id);
                 break;
               case "add":
-                temp[key][anotherKey].children.push(newElement);
+                newTodos[a][b].children.push(newElement);
                 break;
             }
           }
 
-          updateTodos(
-            todos[key][anotherKey],
-            id,
-            action,
-            temp[key][anotherKey],
-            newTodos
-          );
-          newTodos = { ...temp };
+          updateTodos(todos[a][b], id, action, newTodos[a][b], temp);
+          temp = { ...newTodos };
         }
       }
     }
 
-    setTodos(newTodos);
+    setTodos(temp);
   };
 
   const toggleIsTodoComplete = (todo) => {
