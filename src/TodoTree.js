@@ -7,6 +7,7 @@ export const TodoTree = ({
   children,
   removeTodo,
   toggleIsTodoComplete,
+  toggleIsTodoShowChildren,
   addNewTodo,
 }) => (
   <>
@@ -18,6 +19,7 @@ export const TodoTree = ({
           todo={todo}
           nestedLevel={nestedLevel}
           toggleIsTodoComplete={toggleIsTodoComplete}
+          toggleIsTodoShowChildren={toggleIsTodoShowChildren}
           addNewTodo={addNewTodo}
           removeTodo={removeTodo}
         />
@@ -30,6 +32,7 @@ export const TodoTree = ({
           todo={todo}
           nestedLevel={nestedLevel}
           toggleIsTodoComplete={toggleIsTodoComplete}
+          toggleIsTodoShowChildren={toggleIsTodoShowChildren}
           addNewTodo={addNewTodo}
           removeTodo={removeTodo}
         />

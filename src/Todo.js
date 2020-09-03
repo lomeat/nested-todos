@@ -7,6 +7,7 @@ export const Todo = ({
   todo,
   nestedLevel,
   toggleIsTodoComplete,
+  toggleIsTodoShowChildren,
   removeTodo,
   addNewTodo,
 }) => {
@@ -24,23 +25,31 @@ export const Todo = ({
         >
           {todo.title}
         </Title>
-        {todo.isComplete && (
-          <Remove onClick={() => removeTodo(todo)}>Remove</Remove>
-        )}
-        {nestedLevel < nestedLimit && !todo.isComplete && (
-          <Add onClick={() => addNewTodo(todo)}>Add</Add>
-        )}
+        <ButtonsWrapper>
+          <Visibility onClick={() => toggleIsTodoShowChildren(todo)}>
+            {todo.isShowChildren ? "Hide" : "Show"}
+          </Visibility>
+          {todo.isComplete && (
+            <Remove onClick={() => removeTodo(todo)}>Remove</Remove>
+          )}
+          {nestedLevel < nestedLimit && !todo.isComplete && (
+            <Add onClick={() => addNewTodo(todo)}>Add</Add>
+          )}
+        </ButtonsWrapper>
       </Wrapper>
       <ListLeftMargin>
-        {todo.children && newNestedLevel <= nestedLimit && (
-          <TodoTree
-            nestedLevel={newNestedLevel}
-            children={todo.children}
-            removeTodo={removeTodo}
-            addNewTodo={addNewTodo}
-            toggleIsTodoComplete={toggleIsTodoComplete}
-          />
-        )}
+        {todo.children &&
+          newNestedLevel <= nestedLimit &&
+          todo.isShowChildren && (
+            <TodoTree
+              nestedLevel={newNestedLevel}
+              children={todo.children}
+              removeTodo={removeTodo}
+              addNewTodo={addNewTodo}
+              toggleIsTodoComplete={toggleIsTodoComplete}
+              toggleIsTodoShowChildren={toggleIsTodoShowChildren}
+            />
+          )}
       </ListLeftMargin>
     </>
   );
@@ -50,6 +59,7 @@ const Wrapper = styled.div`
   width: 100%;
   cursor: pointer;
   padding: 4px;
+  box-sizing: border-box;
   border-radius: 4px;
   transition: 0.1s ease;
   display: flex;
@@ -62,19 +72,26 @@ const Wrapper = styled.div`
 const Title = styled.span`
   text-decoration: ${(props) => (props.isComplete ? "line-through" : "none")};
   font-size: 24px;
+  padding: 0 10px;
 `;
 
-const Add = styled.button`
+const ButtonsWrapper = styled.div``;
+
+const Button = styled.button`
+  margin-left: 10px;
+  :first-child {
+    margin-left: 0;
+  }
   :hover {
     cursor: pointer;
   }
 `;
 
-const Remove = styled.button`
-  :hover {
-    cursor: pointer;
-  }
-`;
+const Visibility = styled(Button)``;
+
+const Add = styled(Button)``;
+
+const Remove = styled(Button)``;
 
 const ListLeftMargin = styled.div`
   margin-left: 20px;

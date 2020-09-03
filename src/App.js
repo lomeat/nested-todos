@@ -15,9 +15,13 @@ export const App = () => {
           temp[key] = todos[key];
           for (let anotherKey in todos[key]) {
             const element = todos[key][anotherKey];
-            const toggledElement = {
+            const toggledCompletedElement = {
               ...element,
               isComplete: !element.isComplete,
+            };
+            const toggledChildrenElement = {
+              ...element,
+              isShowChildren: !element.isShowChildren,
             };
             const newElement = {
               id: Math.random() * Date.now(),
@@ -28,8 +32,11 @@ export const App = () => {
 
             if (element.id === id) {
               switch (action) {
-                case "toggle":
-                  temp[key][anotherKey] = toggledElement;
+                case "toggle-complete":
+                  temp[key][anotherKey] = toggledCompletedElement;
+                  break;
+                case "toggle-children":
+                  temp[key][anotherKey] = toggledChildrenElement;
                   break;
                 case "remove":
                   temp[key] = temp[key].filter((todo) => todo.id !== id);
@@ -52,7 +59,11 @@ export const App = () => {
   };
 
   const toggleIsTodoComplete = (todo) => {
-    updateTodos(todos, todo.id, "toggle");
+    updateTodos(todos, todo.id, "toggle-complete");
+  };
+
+  const toggleIsTodoShowChildren = (todo) => {
+    updateTodos(todos, todo.id, "toggle-children");
   };
 
   const addNewTodo = (todo) => {
@@ -60,7 +71,9 @@ export const App = () => {
   };
 
   const removeTodo = (todo) => {
-    updateTodos(todos, todo.id, "remove");
+    if (todo.isComplete) {
+      updateTodos(todos, todo.id, "remove");
+    }
   };
 
   return (
@@ -70,6 +83,7 @@ export const App = () => {
           children={todos.children}
           addNewTodo={addNewTodo}
           toggleIsTodoComplete={toggleIsTodoComplete}
+          toggleIsTodoShowChildren={toggleIsTodoShowChildren}
           removeTodo={removeTodo}
         />
       </Container>
