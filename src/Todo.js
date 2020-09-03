@@ -1,4 +1,4 @@
-import React, { usetodo } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 import { TodoTree } from "./TodoTree";
@@ -27,15 +27,17 @@ export const Todo = ({
         </Title>
         <ButtonsWrapper>
           {nestedLevel < nestedLimit && (
-            <Visibility onClick={() => toggleIsTodoShowChildren(todo)}>
+            <ToggleChildrenButton
+              onClick={() => toggleIsTodoShowChildren(todo)}
+            >
               {todo.isShowChildren ? "Hide" : "Show"}
-            </Visibility>
+            </ToggleChildrenButton>
           )}
           {todo.isComplete && (
-            <Remove onClick={() => removeTodo(todo)}>Remove</Remove>
+            <RemoveButton onClick={() => removeTodo(todo)}>Remove</RemoveButton>
           )}
           {nestedLevel < nestedLimit && !todo.isComplete && (
-            <Add onClick={() => addNewTodo(todo)}>Add</Add>
+            <AddButton onClick={() => addNewTodo(todo)}>Add</AddButton>
           )}
         </ButtonsWrapper>
       </Wrapper>
@@ -89,11 +91,11 @@ const Button = styled.button`
   }
 `;
 
-const Visibility = styled(Button)``;
+const ToggleChildrenButton = styled(Button)``;
 
-const Add = styled(Button)``;
+const AddButton = styled(Button)``;
 
-const Remove = styled(Button)``;
+const RemoveButton = styled(Button)``;
 
 const ListLeftMargin = styled.div`
   margin-left: 20px;

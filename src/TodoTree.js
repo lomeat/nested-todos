@@ -2,39 +2,26 @@ import React from "react";
 
 import { Todo } from "./Todo";
 
-export const TodoTree = ({
-  nestedLevel = 0,
-  children,
-  removeTodo,
-  toggleIsTodoComplete,
-  toggleIsTodoShowChildren,
-  addNewTodo,
-}) => (
+export const TodoTree = (props) => (
   <>
-    {children
+    {props.children
       .filter((todo) => todo.isComplete === false)
       .map((todo) => (
         <Todo
           key={todo.id}
           todo={todo}
-          nestedLevel={nestedLevel}
-          toggleIsTodoComplete={toggleIsTodoComplete}
-          toggleIsTodoShowChildren={toggleIsTodoShowChildren}
-          addNewTodo={addNewTodo}
-          removeTodo={removeTodo}
+          nestedLevel={props.nestedLevel ? props.nestedLevel : 0}
+          {...props}
         />
       ))}
-    {children
+    {props.children
       .filter((todo) => todo.isComplete === true)
       .map((todo) => (
         <Todo
           key={todo.id}
           todo={todo}
-          nestedLevel={nestedLevel}
-          toggleIsTodoComplete={toggleIsTodoComplete}
-          toggleIsTodoShowChildren={toggleIsTodoShowChildren}
-          addNewTodo={addNewTodo}
-          removeTodo={removeTodo}
+          nestedLevel={props.nestedLevel ? props.nestedLevel : 0}
+          {...props}
         />
       ))}
   </>
