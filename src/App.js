@@ -8,6 +8,14 @@ export const App = () => {
   const [todos, setTodos] = useState(todosMock);
 
   const updateTodos = (todos, id, action, newTodos = {}, temp = {}) => {
+    const newElement = {
+      id: Math.random() * Date.now(),
+      title: "New todo",
+      isComplete: false,
+      isShowChildren: true,
+      children: [],
+    };
+
     for (let a in todos) {
       if (a === "children") {
         newTodos[a] = todos[a];
@@ -20,13 +28,6 @@ export const App = () => {
           const toggledChildrenElement = {
             ...element,
             isShowChildren: !element.isShowChildren,
-          };
-          const newElement = {
-            id: Math.random() * Date.now(),
-            title: "New todo",
-            isComplete: false,
-            isShowChildren: true,
-            children: [],
           };
 
           if (element.id === id) {
@@ -44,16 +45,13 @@ export const App = () => {
                 newTodos[a][b].children.push(newElement);
                 break;
             }
+          } else {
+            switch (action) {
+              case "remove-all":
+                newTodos = { children: [] };
+                break;
+            }
           }
-          // else {
-          //   switch (action) {
-          //     case "remove-all":
-          //       newTodos = {};
-          //       break;
-          //   }
-          // }
-
-          if (action === "remove-all") newTodos = { children: [] };
 
           if (newTodos[a].length) {
             updateTodos(todos[a][b], id, action, newTodos[a][b], temp);
@@ -61,6 +59,10 @@ export const App = () => {
           temp = { ...newTodos };
         }
       }
+    }
+
+    if (!id && action === "add") {
+      temp = { children: [...newTodos.children, { ...newElement }] };
     }
 
     setTodos(temp);
@@ -74,7 +76,7 @@ export const App = () => {
     updateTodos(todos, todo.id, "toggle-children");
   };
 
-  const addNewTodo = (todo) => {
+  const addNewTodo = (todo = null) => {
     updateTodos(todos, todo.id, "add");
   };
 
@@ -91,7 +93,10 @@ export const App = () => {
   return (
     <Wrapper>
       <Container>
-        <RemoveAllButton onClick={removeAllTodos}>Remove All</RemoveAllButton>
+        <ButtonsWrapper>
+          <AddNewTodoButton onClick={addNewTodo}>Add New Todo</AddNewTodoButton>
+          <RemoveAllButton onClick={removeAllTodos}>Remove All</RemoveAllButton>
+        </ButtonsWrapper>
         <TodoTree
           children={todos.children}
           addNewTodo={addNewTodo}
@@ -120,5 +125,11 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
 `;
+
+const ButtonsWrapper = styled.div`
+  display: flex;
+`;
+
+const AddNewTodoButton = styled.button``;
 
 const RemoveAllButton = styled.button``;
