@@ -14,24 +14,36 @@ export const App = () => {
         if (key === "children") {
           temp[key] = todos[key];
           for (let anotherKey in todos[key]) {
-            switch (action) {
-              case "toggle": {
-                const oldElement = todos[key][anotherKey];
-                const newElement = {
-                  ...oldElement,
-                  isComplete: !oldElement.isComplete,
-                };
-                if (oldElement.id === id) {
-                  temp[key][anotherKey] = newElement;
-                } else {
-                  temp[key][anotherKey] = oldElement;
-                }
+            const element = todos[key][anotherKey];
+            const toggledElement = {
+              ...element,
+              isComplete: !element.isComplete,
+            };
+            const newElement = {
+              id: Math.random() * Date.now(),
+              title: "New todo",
+              isComplete: false,
+              children: [],
+            };
+
+            if (element.id === id) {
+              switch (action) {
+                case "toggle":
+                  temp[key][anotherKey] = toggledElement;
+                  break;
+                case "remove":
+                  temp[key] = todos[key].filter((todo) => todo.id !== id);
+                  break;
+                case "add":
+                  temp[key][anotherKey].children.push(newElement);
+                  break;
+                default:
+                  temp[key][anotherKey] = todos[key][anotherKey];
+                  break;
               }
             }
 
-            if (!temp[key][anotherKey].children.length) {
-              newTodos = { ...temp };
-            }
+            newTodos = { ...temp };
 
             bruteforce(todos[key][anotherKey], temp[key][anotherKey], action);
           }
@@ -47,9 +59,13 @@ export const App = () => {
     updateTodos(todos, todo.id, "toggle");
   };
 
-  const addNewTodo = (todo) => {};
+  const addNewTodo = (todo) => {
+    updateTodos(todos, todo.id, "add");
+  };
 
-  const removeTodo = (id) => {};
+  const removeTodo = (todo) => {
+    updateTodos(todos, todo.id, "remove");
+  };
 
   return (
     <Wrapper>

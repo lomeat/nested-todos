@@ -41,7 +41,7 @@ export default {
     },
     {
       id: 3,
-      title: "Get an offer",
+      title: "Get an apple",
       isComplete: false,
       children: [],
     },
