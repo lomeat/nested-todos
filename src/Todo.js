@@ -26,9 +26,11 @@ export const Todo = ({
           {todo.title}
         </Title>
         <ButtonsWrapper>
-          <Visibility onClick={() => toggleIsTodoShowChildren(todo)}>
-            {todo.isShowChildren ? "Hide" : "Show"}
-          </Visibility>
+          {nestedLevel < nestedLimit && (
+            <Visibility onClick={() => toggleIsTodoShowChildren(todo)}>
+              {todo.isShowChildren ? "Hide" : "Show"}
+            </Visibility>
+          )}
           {todo.isComplete && (
             <Remove onClick={() => removeTodo(todo)}>Remove</Remove>
           )}
