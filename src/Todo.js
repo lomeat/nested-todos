@@ -6,7 +6,7 @@ import { TodoTree } from "./TodoTree";
 export const Todo = ({
   todo,
   nestedLevel,
-  toggleIsComplete,
+  toggleIsTodoComplete,
   removeTodo,
   addNewTodo,
 }) => {
@@ -20,7 +20,7 @@ export const Todo = ({
       <Wrapper key={todo.id}>
         <Title
           isComplete={todo.isComplete}
-          onClick={() => toggleIsComplete(todo)}
+          onClick={() => toggleIsTodoComplete(todo)}
         >
           {todo.title}
         </Title>
@@ -32,10 +32,15 @@ export const Todo = ({
         )}
       </Wrapper>
       <ListLeftMargin>
-        {(todo.children.list || todo.children.completed) &&
-          newNestedLevel <= nestedLimit && (
-            <TodoTree nestedLevel={newNestedLevel} children={todo.children} />
-          )}
+        {todo.children && newNestedLevel <= nestedLimit && (
+          <TodoTree
+            nestedLevel={newNestedLevel}
+            children={todo.children}
+            removeTodo={removeTodo}
+            addNewTodo={addNewTodo}
+            toggleIsTodoComplete={toggleIsTodoComplete}
+          />
+        )}
       </ListLeftMargin>
     </>
   );
