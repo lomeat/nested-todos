@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { BiTrash } from "react-icons/bi";
+import { IoMdAdd } from "react-icons/io";
 
 import { TodoTree } from "./TodoTree";
 import { todosMock, newElement } from "./mock";
@@ -53,8 +55,8 @@ export const App = () => {
       }
     }
 
-    if (!id && action === "add-global") {
-      temp = { children: [...newTodos.children, { ...newElement }] };
+    if (id === null && action === "add-global") {
+      temp = { children: [...todos.children, { ...newElement }] };
     }
 
     setTodos(temp);
@@ -68,9 +70,11 @@ export const App = () => {
     updateTodos(todos, todo.id, "toggle-children");
   };
 
-  const addNewTodo = (todo = null, type = "add") => {
-    if (todo && !todo.isComplete) {
+  const addNewTodo = (todo, type = "add") => {
+    if (todo !== null && !todo.isComplete) {
       updateTodos(todos, todo.id, type);
+    } else {
+      updateTodos(todos, null, type);
     }
   };
 
@@ -90,9 +94,11 @@ export const App = () => {
         <Title>Nested Todo App</Title>
         <ButtonsWrapper>
           <AddNewTodoButton onClick={() => addNewTodo(null, "add-global")}>
-            Add New Todo
+            <IoMdAdd />
           </AddNewTodoButton>
-          <RemoveAllButton onClick={removeAllTodos}>Remove All</RemoveAllButton>
+          <RemoveAllButton onClick={removeAllTodos}>
+            <BiTrash />
+          </RemoveAllButton>
         </ButtonsWrapper>
         <TreeWrapper>
           <TodoTree

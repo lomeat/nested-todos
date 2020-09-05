@@ -36,3 +36,7 @@ App made for [Digital Spectr](https://digital-spectr.ru/) as test job.
 - **fix**: Fix some bugs in exist functionality
 - **docs**: Work with comments/documentation of code. Additional information that helps to read the app
 - **init**: Configure the setup of project
+
+## Known issues
+
+- Stack overhead when add many new todos. Because uses recursive function with cycle inner it for update state
