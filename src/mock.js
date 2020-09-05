@@ -1,5 +1,5 @@
 export const newElement = {
-  id: Math.random() * Date.now(),
+  id: () => Math.floor(Math.random() * Date.now()),
   title: "New todo",
   isComplete: false,
   isShowChildren: true,

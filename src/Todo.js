@@ -10,6 +10,7 @@ export const Todo = ({
   toggleIsTodoShowChildren,
   removeTodo,
   addNewTodo,
+  setNewTodoTitle,
 }) => {
   // Recursive count the level of nested lists...
   const newNestedLevel = nestedLevel + 1;
@@ -72,6 +73,7 @@ export const Todo = ({
               addNewTodo={addNewTodo}
               toggleIsTodoComplete={toggleIsTodoComplete}
               toggleIsTodoShowChildren={toggleIsTodoShowChildren}
+              setNewTodoTitle={setNewTodoTitle}
             />
           )}
       </ListLeftMargin>
@@ -90,9 +92,15 @@ export const Todo = ({
         </ModalOuter>
       )}
       {isAddModalOpen && (
-        <ModalOuter onClick={toggleAddModalVisibility}>
+        <ModalOuter
+        // onClick={toggleAddModalVisibility}
+        >
           <ModalInner>
             <h2>Do you want to add new todo?</h2>
+            <input
+              placeholder="Type your todo..."
+              onChange={(e) => setNewTodoTitle(e.currentTarget.value)}
+            />
             <div>
               <button onClick={() => toggleAddModalVisibility(todo)}>
                 yes
@@ -163,7 +171,7 @@ const ModalOuter = styled.div`
 `;
 
 const ModalInner = styled.div`
-  z-index: 5;
+  z-index: 1;
   background: white;
   padding: 20px;
   border-radius: 8px;

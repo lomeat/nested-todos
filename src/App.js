@@ -8,6 +8,14 @@ import { todosMock, newElement } from "./mock";
 
 export const App = () => {
   const [todos, setTodos] = useState(todosMock);
+  const [newTodoTitle, setNewTodoTitle] = useState("");
+  const [newTodo, setNewTodo] = useState({
+    id: () => Math.floor(Math.random() * Date.now()),
+    title: newTodoTitle,
+    isShowChildren: true,
+    isComplete: false,
+    children: [],
+  });
 
   const updateTodos = (todos, id, action, newTodos = {}, temp = {}) => {
     for (let a in todos) {
@@ -36,7 +44,11 @@ export const App = () => {
                 newTodos[a] = newTodos[a].filter((todo) => todo.id !== id);
                 break;
               case "add":
-                newTodos[a][b].children.push(newElement);
+                newTodos[a][b].children.push({
+                  ...newTodo,
+                  title: newTodoTitle,
+                  id: newTodo.id(),
+                });
                 break;
             }
           } else {
@@ -56,10 +68,20 @@ export const App = () => {
     }
 
     if (id === null && action === "add-global") {
-      temp = { children: [...todos.children, { ...newElement }] };
+      temp = {
+        children: [
+          ...todos.children,
+          { ...newTodo, title: newTodoTitle, id: newTodo.id() },
+        ],
+      };
     }
 
     setTodos(temp);
+  };
+
+  const changeNewnewTodoTitle = (e) => {
+    e.preventDefault();
+    setNewTodoTitle(e.currentTarget.value);
   };
 
   const toggleIsTodoComplete = (todo) => {
@@ -92,14 +114,26 @@ export const App = () => {
     <Wrapper>
       <Container>
         <Title>Nested Todo App</Title>
-        <ButtonsWrapper>
-          <AddNewTodoButton onClick={() => addNewTodo(null, "add-global")}>
+        <EditListWrapper>
+          <Input
+            placeholder="Type your todo..."
+            value={newTodoTitle}
+            onChange={changeNewnewTodoTitle}
+          />
+          <AddNewTodoButton
+            onClick={() => {
+              if (newTodoTitle.length) {
+                addNewTodo(null, "add-global");
+                setNewTodoTitle("");
+              }
+            }}
+          >
             <IoMdAdd />
           </AddNewTodoButton>
           <RemoveAllButton onClick={removeAllTodos}>
             <BiTrash />
           </RemoveAllButton>
-        </ButtonsWrapper>
+        </EditListWrapper>
         <TreeWrapper>
           <TodoTree
             children={todos.children}
@@ -107,6 +141,7 @@ export const App = () => {
             toggleIsTodoComplete={toggleIsTodoComplete}
             toggleIsTodoShowChildren={toggleIsTodoShowChildren}
             removeTodo={removeTodo}
+            setNewTodoTitle={setNewTodoTitle}
           />
         </TreeWrapper>
       </Container>
@@ -132,25 +167,42 @@ const Container = styled.div`
 
 const Title = styled.h1``;
 
-const TreeWrapper = styled.div`
-  width: 100%;
-`;
-
-const ButtonsWrapper = styled.div`
+const EditListWrapper = styled.div`
   display: flex;
   padding: 40px;
 `;
 
+const Input = styled.input``;
+
 const Button = styled.button`
   margin-left: 10px;
+  background: transparent;
+  border: 0;
+  font-size: 20px;
+  padding: 0;
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #777;
+  transition: 0.1s ease;
+
   :first-child {
     margin-left: 0;
   }
   :hover {
     cursor: pointer;
+    color: black;
+    background: #eee;
   }
 `;
 
 const AddNewTodoButton = styled(Button)``;
 
 const RemoveAllButton = styled(Button)``;
+
+const TreeWrapper = styled.div`
+  width: 100%;
+`;
