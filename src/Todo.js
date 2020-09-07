@@ -19,7 +19,7 @@ export const Todo = ({
   const nestedLimit = 3;
 
   const [isRemoveModalOpen, setIsRemoveModal] = useState(false);
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(true);
 
   // WD: Toggles the display of remove modal
   // HW: Shows/hides the modal block
@@ -104,28 +104,28 @@ export const Todo = ({
       {isRemoveModalOpen && (
         <ModalOuter>
           <ModalInner>
-            <h2>Are you sure?</h2>
-            <div>
-              <button onClick={() => toggleRemoveModalVisibility(todo)}>
+            <ModalTitle>Are you sure?</ModalTitle>
+            <ModalButtonsWrapper>
+              <Button onClick={() => toggleRemoveModalVisibility(todo)}>
                 yes
-              </button>
-              <button onClick={toggleRemoveModalVisibility}>no</button>
-            </div>
+              </Button>
+              <Button onClick={toggleRemoveModalVisibility}>no</Button>
+            </ModalButtonsWrapper>
           </ModalInner>
         </ModalOuter>
       )}
       {isAddModalOpen && (
         <ModalOuter>
           <ModalInner>
-            <h2>Do you want to add new todo?</h2>
-            <input
+            <ModalTitle>Do you want to add new todo?</ModalTitle>
+            <ModalInput
               placeholder="Type your todo..."
               onChange={changeNewTodoTitle}
               value={newTodo.title}
               onKeyPress={keyEnterPress}
             />
-            <div>
-              <button
+            <ModalButtonsWrapper>
+              <Button
                 onClick={() => {
                   if (newTodo.title.length) {
                     toggleAddModalVisibility(todo);
@@ -134,9 +134,9 @@ export const Todo = ({
                 }}
               >
                 yes
-              </button>
-              <button onClick={toggleAddModalVisibility}>no</button>
-            </div>
+              </Button>
+              <Button onClick={toggleAddModalVisibility}>no</Button>
+            </ModalButtonsWrapper>
           </ModalInner>
         </ModalOuter>
       )}
@@ -170,11 +170,18 @@ const ButtonsWrapper = styled.div``;
 
 const Button = styled.button`
   margin-left: 10px;
+  background: transparent;
+  border: 1px solid #ccc;
+  padding: 4px 10px;
+  border-radius: 8px;
   :first-child {
     margin-left: 0;
   }
   :hover {
     cursor: pointer;
+  }
+  :active {
+    border-color: lightsteelblue;
   }
 `;
 
@@ -212,4 +219,23 @@ const ModalInner = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+`;
+
+const ModalTitle = styled.h2`
+  font-family: "Roboto", sans;
+  padding-bottom: 20px;
+`;
+
+const ModalInput = styled.input`
+  font-family: "Roboto", sans-serif;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  padding: 4px 10px;
+  :focus {
+    border-color: lightsteelblue;
+  }
+`;
+
+const ModalButtonsWrapper = styled.div`
+  padding-top: 10px;
 `;
