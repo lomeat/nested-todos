@@ -8,7 +8,9 @@ import { todosMock, newTodoMock } from "./mock";
 
 export const App = () => {
   // Main data: all todos with structure (object-array-object-array...)
-  const [todos, setTodos] = useState(todosMock);
+  const [todos, setTodos] = useState(
+    JSON.parse(localStorage.getItem("todos")) || todosMock
+  );
   // Template for new added todo
   const [newTodo, setNewTodo] = useState(newTodoMock);
 
@@ -93,6 +95,7 @@ export const App = () => {
     }
 
     setTodos(nextTodos);
+    localStorage.setItem("todos", JSON.stringify(nextTodos));
   };
 
   // WD: Toggles the complete status of one todo
