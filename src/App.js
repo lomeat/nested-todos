@@ -4,18 +4,11 @@ import { BiTrash } from "react-icons/bi";
 import { IoMdAdd } from "react-icons/io";
 
 import { TodoTree } from "./TodoTree";
-import { todosMock, newElement } from "./mock";
+import { todosMock, newTodoMock } from "./mock";
 
 export const App = () => {
   const [todos, setTodos] = useState(todosMock);
-  const [newTodoTitle, setNewTodoTitle] = useState("");
-  const [newTodo, setNewTodo] = useState({
-    id: () => Math.floor(Math.random() * Date.now()),
-    title: newTodoTitle,
-    isShowChildren: true,
-    isComplete: false,
-    children: [],
-  });
+  const [newTodo, setNewTodo] = useState(newTodoMock);
 
   const updateTodos = (todos, id, action, newTodos = {}, temp = {}) => {
     for (let a in todos) {
@@ -44,11 +37,10 @@ export const App = () => {
                 newTodos[a] = newTodos[a].filter((todo) => todo.id !== id);
                 break;
               case "add":
-                newTodos[a][b].children.push({
-                  ...newTodo,
-                  title: newTodoTitle,
-                  id: newTodo.id(),
-                });
+                newTodos[a][b].children = [
+                  ...newTodos[a][b].children,
+                  { ...newTodo, id: newTodo.id() },
+                ];
                 break;
             }
           } else {
@@ -69,23 +61,47 @@ export const App = () => {
 
     if (id === null && action === "add-global") {
       temp = {
-        children: [
-          ...todos.children,
-          { ...newTodo, title: newTodoTitle, id: newTodo.id() },
-        ],
+        children: [...todos.children, { ...newTodo, id: newTodo.id() }],
       };
     }
 
     setTodos(temp);
   };
 
-  const changeNewnewTodoTitle = (e) => {
-    e.preventDefault();
-    setNewTodoTitle(e.currentTarget.value);
+  const toggleIsTodoComplete = (
+    id,
+    prevTodos = todos,
+    temp = {},
+    nextTodos = {}
+  ) => {
+    for (const a in prevTodos) {
+      if (a === "children") {
+        temp[a] = prevTodos[a];
+        for (const b in prevTodos[a]) {
+          const element = prevTodos[a][b];
+
+          if (element.id === id) {
+            temp[a][b] = {
+              ...element,
+              isComplete: !element.isComplete,
+            };
+          }
+
+          if (temp[a].length) {
+            toggleIsTodoComplete(id, prevTodos[a][b], temp[a][b], nextTodos);
+          }
+          nextTodos = { ...temp };
+        }
+      }
+    }
+
+    setTodos(nextTodos);
   };
 
-  const toggleIsTodoComplete = (todo) => {
-    updateTodos(todos, todo.id, "toggle-complete");
+  const changeNewTodoTitle = (e) => {
+    e.preventDefault();
+    const { value } = e.currentTarget;
+    setNewTodo((state) => ({ ...state, title: value }));
   };
 
   const toggleIsTodoShowChildren = (todo) => {
@@ -117,14 +133,14 @@ export const App = () => {
         <EditListWrapper>
           <Input
             placeholder="Type your todo..."
-            value={newTodoTitle}
-            onChange={changeNewnewTodoTitle}
+            value={newTodo.title}
+            onChange={changeNewTodoTitle}
           />
           <AddNewTodoButton
             onClick={() => {
-              if (newTodoTitle.length) {
+              if (newTodo.title.length) {
                 addNewTodo(null, "add-global");
-                setNewTodoTitle("");
+                setNewTodo((state) => ({ ...state, title: "" }));
               }
             }}
           >
@@ -141,7 +157,8 @@ export const App = () => {
             toggleIsTodoComplete={toggleIsTodoComplete}
             toggleIsTodoShowChildren={toggleIsTodoShowChildren}
             removeTodo={removeTodo}
-            setNewTodoTitle={setNewTodoTitle}
+            newTodo={newTodo}
+            setNewTodo={setNewTodo}
           />
         </TreeWrapper>
       </Container>

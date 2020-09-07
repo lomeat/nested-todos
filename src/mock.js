@@ -1,6 +1,6 @@
-export const newElement = {
+export const newTodoMock = {
   id: () => Math.floor(Math.random() * Date.now()),
-  title: "New todo",
+  title: "",
   isComplete: false,
   isShowChildren: true,
   children: [],

@@ -10,7 +10,8 @@ export const Todo = ({
   toggleIsTodoShowChildren,
   removeTodo,
   addNewTodo,
-  setNewTodoTitle,
+  setNewTodo,
+  newTodo,
 }) => {
   // Recursive count the level of nested lists...
   const newNestedLevel = nestedLevel + 1;
@@ -34,17 +35,23 @@ export const Todo = ({
     }
   };
 
+  const changeNewTodoTitle = (e) => {
+    e.preventDefault();
+    const { value } = e.currentTarget;
+    setNewTodo((state) => ({ ...state, title: value }));
+  };
+
   return (
     <>
       <Wrapper key={todo.id}>
         <Title
           isComplete={todo.isComplete}
-          onClick={() => toggleIsTodoComplete(todo)}
+          onClick={() => toggleIsTodoComplete(todo.id)}
         >
           {todo.title}
         </Title>
         <ButtonsWrapper>
-          {nestedLevel < nestedLimit && (
+          {nestedLevel < nestedLimit && todo.children.length > 0 && (
             <ToggleChildrenButton
               onClick={() => toggleIsTodoShowChildren(todo)}
             >
@@ -73,13 +80,14 @@ export const Todo = ({
               addNewTodo={addNewTodo}
               toggleIsTodoComplete={toggleIsTodoComplete}
               toggleIsTodoShowChildren={toggleIsTodoShowChildren}
-              setNewTodoTitle={setNewTodoTitle}
+              setNewTodo={setNewTodo}
+              newTodo={newTodo}
             />
           )}
       </ListLeftMargin>
 
       {isRemoveModalOpen && (
-        <ModalOuter onClick={toggleRemoveModalVisibility}>
+        <ModalOuter>
           <ModalInner>
             <h2>Are you sure?</h2>
             <div>
@@ -92,17 +100,21 @@ export const Todo = ({
         </ModalOuter>
       )}
       {isAddModalOpen && (
-        <ModalOuter
-        // onClick={toggleAddModalVisibility}
-        >
+        <ModalOuter>
           <ModalInner>
             <h2>Do you want to add new todo?</h2>
             <input
               placeholder="Type your todo..."
-              onChange={(e) => setNewTodoTitle(e.currentTarget.value)}
+              onChange={changeNewTodoTitle}
+              value={newTodo.title}
             />
             <div>
-              <button onClick={() => toggleAddModalVisibility(todo)}>
+              <button
+                onClick={() => {
+                  toggleAddModalVisibility(todo);
+                  setNewTodo((state) => ({ ...state, title: "" }));
+                }}
+              >
                 yes
               </button>
               <button onClick={toggleAddModalVisibility}>no</button>
@@ -167,7 +179,6 @@ const ModalOuter = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  cursor: pointer;
 `;
 
 const ModalInner = styled.div`
