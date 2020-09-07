@@ -4,99 +4,11 @@ import { BiTrash } from "react-icons/bi";
 import { IoMdAdd } from "react-icons/io";
 
 import { TodoTree } from "./TodoTree";
-import { todosMock, newTodoMock } from "./mock";
+import { todosMock, newTodoMock, updateTodos } from "./utils";
 
 export const App = () => {
   const [todos, setTodos] = useState(todosMock);
   const [newTodo, setNewTodo] = useState(newTodoMock);
-
-  const updateTodos = (todos, id, action, newTodos = {}, temp = {}) => {
-    for (let a in todos) {
-      if (a === "children") {
-        newTodos[a] = todos[a];
-        for (let b in todos[a]) {
-          const element = todos[a][b];
-          const toggledCompletedElement = {
-            ...element,
-            isComplete: !element.isComplete,
-          };
-          const toggledChildrenElement = {
-            ...element,
-            isShowChildren: !element.isShowChildren,
-          };
-
-          if (element.id === id) {
-            switch (action) {
-              case "toggle-complete":
-                newTodos[a][b] = toggledCompletedElement;
-                break;
-              case "toggle-children":
-                newTodos[a][b] = toggledChildrenElement;
-                break;
-              case "remove":
-                newTodos[a] = newTodos[a].filter((todo) => todo.id !== id);
-                break;
-              case "add":
-                newTodos[a][b].children = [
-                  ...newTodos[a][b].children,
-                  { ...newTodo, id: newTodo.id() },
-                ];
-                break;
-            }
-          } else {
-            switch (action) {
-              case "remove-all":
-                newTodos = { children: [] };
-                break;
-            }
-          }
-
-          if (newTodos[a].length) {
-            updateTodos(todos[a][b], id, action, newTodos[a][b], temp);
-          }
-          temp = { ...newTodos };
-        }
-      }
-    }
-
-    if (id === null && action === "add-global") {
-      temp = {
-        children: [...todos.children, { ...newTodo, id: newTodo.id() }],
-      };
-    }
-
-    setTodos(temp);
-  };
-
-  const toggleIsTodoComplete = (
-    id,
-    prevTodos = todos,
-    temp = {},
-    nextTodos = {}
-  ) => {
-    for (const a in prevTodos) {
-      if (a === "children") {
-        temp[a] = prevTodos[a];
-        for (const b in prevTodos[a]) {
-          const element = prevTodos[a][b];
-
-          if (element.id === id) {
-            temp[a][b] = {
-              ...element,
-              isComplete: !element.isComplete,
-            };
-          }
-
-          if (temp[a].length) {
-            toggleIsTodoComplete(id, prevTodos[a][b], temp[a][b], nextTodos);
-          }
-          nextTodos = { ...temp };
-        }
-      }
-    }
-
-    setTodos(nextTodos);
-  };
 
   const changeNewTodoTitle = (e) => {
     e.preventDefault();
@@ -104,26 +16,36 @@ export const App = () => {
     setNewTodo((state) => ({ ...state, title: value }));
   };
 
+  const toggleIsTodoComplete = (todo) => {
+    const newTodos = updateTodos(todos, todo.id, "toggle-complete");
+    setTodos(newTodos);
+  };
+
   const toggleIsTodoShowChildren = (todo) => {
-    updateTodos(todos, todo.id, "toggle-children");
+    const newTodos = updateTodos(todos, todo.id, "toggle-children");
+    setTodos(newTodos);
   };
 
   const addNewTodo = (todo, type = "add") => {
     if (todo !== null && !todo.isComplete) {
-      updateTodos(todos, todo.id, type);
+      const newTodos = updateTodos(todos, todo.id, type);
+      setTodos(newTodos);
     } else {
-      updateTodos(todos, null, type);
+      const newTodos = updateTodos(todos, null, type);
+      setTodos(newTodos);
     }
   };
 
   const removeTodo = (todo) => {
     if (todo.isComplete) {
-      updateTodos(todos, todo.id, "remove");
+      const newTodos = updateTodos(todos, todo.id, "remove");
+      setTodos(newTodos);
     }
   };
 
   const removeAllTodos = () => {
-    updateTodos(todos, null, "remove-all");
+    const newTodos = updateTodos(todos, null, "remove-all");
+    setTodos(newTodos);
   };
 
   return (

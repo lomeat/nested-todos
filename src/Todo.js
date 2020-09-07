@@ -46,7 +46,7 @@ export const Todo = ({
       <Wrapper key={todo.id}>
         <Title
           isComplete={todo.isComplete}
-          onClick={() => toggleIsTodoComplete(todo.id)}
+          onClick={() => toggleIsTodoComplete(todo)}
         >
           {todo.title}
         </Title>
