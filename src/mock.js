@@ -9,41 +9,56 @@ export const newTodoMock = {
 export const todosMock = {
   children: [
     {
-      id: 13453,
-      title: "Do homework",
+      id: 123,
+      title: "Hello! Some examples of using app",
       isComplete: false,
       isShowChildren: true,
       children: [],
     },
     {
-      id: 5,
-      title: "Call to myself",
-      isComplete: false,
-      isShowChildren: true,
-      children: [],
-    },
-    {
-      id: 2123,
-      title: "Make an app",
+      id: 121233,
+      title: "You can nest todo each in other",
       isComplete: false,
       isShowChildren: true,
       children: [
         {
-          id: 434534,
-          title: "Create a list",
+          id: 234,
+          title: "And it is the first nested level",
+          isComplete: false,
+          isShowChildren: true,
+          children: [],
+        },
+      ],
+    },
+    {
+      id: 432,
+      title: "Or make 3-level nested tree!",
+      isComplete: false,
+      isShowChildren: true,
+      children: [
+        {
+          id: 3452,
+          title: "At textfield above you add todos to main list",
           isComplete: false,
           isShowChildren: true,
           children: [
             {
-              id: 634,
-              title: "Add 1 item",
+              id: 25234,
+              title: "But try to click '+' button there ->",
               isComplete: false,
               isShowChildren: true,
               children: [
                 {
-                  id: 7234,
-                  title: "Imagine ideal title name",
+                  id: 6154,
+                  title: "At last nested level you cannot add anything",
                   isComplete: false,
+                  isShowChildren: true,
+                  children: [],
+                },
+                {
+                  id: 56745,
+                  title: "Oh, it's already completed!",
+                  isComplete: true,
                   isShowChildren: true,
                   children: [],
                 },
@@ -52,36 +67,35 @@ export const todosMock = {
           ],
         },
         {
-          id: 5345,
-          title: "Add button to remove todo",
+          id: 3412352,
+          title: "Chevron helps to show/hide unnecessary deals",
           isComplete: false,
-          isShowChildren: true,
-          children: [],
-        },
-      ],
-    },
-    {
-      id: 3123,
-      title: "Get an offer",
-      isComplete: false,
-      isShowChildren: true,
-      children: [
-        {
-          id: 34456,
-          title: "Buy an apple",
-          isComplete: false,
-          isShowChildren: true,
+          isShowChildren: false,
           children: [
             {
-              id: 1238756,
-              title: "Go to the shop",
+              id: 45234,
+              title: "All data save to local cache",
               isComplete: false,
-              isShowChildren: true,
+              isShowChildren: false,
+              children: [],
+            },
+            {
+              id: 345345,
+              title: "So try to edit something and reload page!",
+              isComplete: false,
+              isShowChildren: false,
               children: [],
             },
           ],
         },
       ],
+    },
+    {
+      id: 29879,
+      title: "WARNING! Trash icon - DELETE everything!",
+      isComplete: false,
+      isShowChildren: true,
+      children: [],
     },
   ],
 };
