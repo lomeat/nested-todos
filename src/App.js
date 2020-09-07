@@ -189,14 +189,24 @@ const Container = styled.div`
   align-items: center;
 `;
 
-const Title = styled.h1``;
+const Title = styled.h1`
+  font-family: "Roboto", sans-serif;
+`;
 
 const EditListWrapper = styled.div`
   display: flex;
   padding: 40px;
 `;
 
-const Input = styled.input``;
+const Input = styled.input`
+  font-family: "Roboto", sans-serif;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  padding: 4px 10px;
+  :focus {
+    border-color: lightsteelblue;
+  }
+`;
 
 const Button = styled.button`
   margin-left: 10px;
