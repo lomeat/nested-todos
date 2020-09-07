@@ -49,6 +49,13 @@ export const Todo = ({
     setNewTodo((state) => ({ ...state, title: value }));
   };
 
+  const keyEnterPress = (e) => {
+    if (e.key === "Enter") {
+      toggleAddModalVisibility(todo);
+      setNewTodo((state) => ({ ...state, title: "" }));
+    }
+  };
+
   return (
     <>
       <Wrapper key={todo.id}>
@@ -115,6 +122,7 @@ export const Todo = ({
               placeholder="Type your todo..."
               onChange={changeNewTodoTitle}
               value={newTodo.title}
+              onKeyPress={keyEnterPress}
             />
             <div>
               <button
@@ -139,7 +147,7 @@ export const Todo = ({
 const Wrapper = styled.div`
   width: 100%;
   cursor: pointer;
-  padding: 4px;
+  padding: 6px;
   box-sizing: border-box;
   border-radius: 4px;
   transition: 0.1s ease;
@@ -152,8 +160,10 @@ const Wrapper = styled.div`
 
 const Title = styled.span`
   text-decoration: ${(props) => (props.isComplete ? "line-through" : "none")};
-  font-size: 24px;
+  font-size: 22px;
   padding: 0 10px;
+  font-family: "Roboto Slab", serif;
+  font-weight: 400;
 `;
 
 const ButtonsWrapper = styled.div``;

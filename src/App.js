@@ -133,15 +133,24 @@ export const App = () => {
     updateTodos(todos, null, "remove-all");
   };
 
+  const keyEnterPress = (e) => {
+    if (e.key === "Enter") {
+      addNewTodo(null, "add-global");
+      setNewTodo((state) => ({ ...state, title: "" }));
+    }
+  };
+
   return (
     <Wrapper>
       <Container>
         <Title>Nested Todo App</Title>
         <EditListWrapper>
           <Input
+            type="text"
             placeholder="Type your todo..."
             value={newTodo.title}
             onChange={changeNewTodoTitle}
+            onKeyPress={keyEnterPress}
           />
           <AddNewTodoButton
             onClick={() => {
