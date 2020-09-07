@@ -133,8 +133,10 @@ export const App = () => {
     updateTodos(todos, null, "remove-all");
   };
 
+  // WD: Create new todo with keyboard
+  // HW: Check if pressed "Enter" when some typed in input
   const keyEnterPress = (e) => {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" && newTodo.title.length) {
       addNewTodo(null, "add-global");
       setNewTodo((state) => ({ ...state, title: "" }));
     }
@@ -147,7 +149,7 @@ export const App = () => {
         <EditListWrapper>
           <Input
             type="text"
-            placeholder="Type your todo..."
+            placeholder="Ex.: Do a homework"
             value={newTodo.title}
             onChange={changeNewTodoTitle}
             onKeyPress={keyEnterPress}
@@ -188,10 +190,11 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  background: #f4f4f4;
 `;
 
 const Container = styled.div`
-  width: 700px;
+  width: 600px;
   padding: 10px;
   display: flex;
   flex-direction: column;
@@ -204,14 +207,15 @@ const Title = styled.h1`
 
 const EditListWrapper = styled.div`
   display: flex;
-  padding: 40px;
+  padding: 80px 0 40px 0;
 `;
 
 const Input = styled.input`
   font-family: "Roboto", sans-serif;
-  border-radius: 8px;
-  border: 1px solid #ccc;
+  border: 0;
+  border-bottom: 1px solid #eee;
   padding: 4px 10px;
+  background: transparent;
   :focus {
     border-color: lightsteelblue;
   }
@@ -221,7 +225,7 @@ const Button = styled.button`
   margin-left: 10px;
   background: transparent;
   border: 0;
-  font-size: 20px;
+  font-size: 22px;
   padding: 0;
   border-radius: 8px;
   width: 32px;
@@ -238,7 +242,7 @@ const Button = styled.button`
   :hover {
     cursor: pointer;
     color: black;
-    background: #eee;
+    background: #ddd;
   }
 `;
 

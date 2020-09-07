@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { BiChevronLeft } from "react-icons/bi";
+import { GrCheckbox, GrCheckboxSelected } from "react-icons/gr";
+import { IoMdAdd } from "react-icons/io";
 
 import { TodoTree } from "./TodoTree";
 
@@ -19,7 +22,7 @@ export const Todo = ({
   const nestedLimit = 3;
 
   const [isRemoveModalOpen, setIsRemoveModal] = useState(false);
-  const [isAddModalOpen, setIsAddModalOpen] = useState(true);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   // WD: Toggles the display of remove modal
   // HW: Shows/hides the modal block
@@ -33,7 +36,7 @@ export const Todo = ({
 
   // WD: Toggles the display of remove modal
   // HW: Shows/hides the modal block
-  //     If answered "yes" add new todo to clicked element
+  //     If answered "yes", add new todo to clicked element
   const toggleAddModalVisibility = (todo = null) => {
     setIsAddModalOpen((state) => !state);
     if (todo) {
@@ -49,8 +52,10 @@ export const Todo = ({
     setNewTodo((state) => ({ ...state, title: value }));
   };
 
+  // WD: Create new todo with keyboard
+  // HW: Check if pressed "Enter" when some typed in input
   const keyEnterPress = (e) => {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" && newTodo.title.length) {
       toggleAddModalVisibility(todo);
       setNewTodo((state) => ({ ...state, title: "" }));
     }
@@ -63,23 +68,29 @@ export const Todo = ({
           isComplete={todo.isComplete}
           onClick={() => toggleIsTodoComplete(todo)}
         >
+          <Checkbox>
+            {todo.isComplete ? <GrCheckboxSelected /> : <GrCheckbox />}
+          </Checkbox>
           {todo.title}
         </Title>
         <ButtonsWrapper>
           {nestedLevel < nestedLimit && todo.children.length > 0 && (
             <ToggleChildrenButton
               onClick={() => toggleIsTodoShowChildren(todo)}
+              isShowChildren={todo.isShowChildren}
             >
-              {todo.isShowChildren ? "Hide" : "Show"}
+              {todo.isShowChildren ? <BiChevronLeft /> : <BiChevronLeft />}
             </ToggleChildrenButton>
           )}
           {todo.isComplete && (
             <RemoveButton onClick={toggleRemoveModalVisibility}>
-              Remove
+              <IoMdAdd />
             </RemoveButton>
           )}
           {nestedLevel < nestedLimit && !todo.isComplete && (
-            <AddButton onClick={toggleAddModalVisibility}>Add</AddButton>
+            <AddButton onClick={toggleAddModalVisibility}>
+              <IoMdAdd />
+            </AddButton>
           )}
         </ButtonsWrapper>
       </Wrapper>
@@ -104,12 +115,14 @@ export const Todo = ({
       {isRemoveModalOpen && (
         <ModalOuter>
           <ModalInner>
-            <ModalTitle>Are you sure?</ModalTitle>
+            <ModalTitle>Are you sure you want to delete?</ModalTitle>
             <ModalButtonsWrapper>
-              <Button onClick={() => toggleRemoveModalVisibility(todo)}>
-                yes
-              </Button>
-              <Button onClick={toggleRemoveModalVisibility}>no</Button>
+              <ModalButton onClick={() => toggleRemoveModalVisibility(todo)}>
+                Yes
+              </ModalButton>
+              <ModalButton onClick={toggleRemoveModalVisibility}>
+                No
+              </ModalButton>
             </ModalButtonsWrapper>
           </ModalInner>
         </ModalOuter>
@@ -117,15 +130,16 @@ export const Todo = ({
       {isAddModalOpen && (
         <ModalOuter>
           <ModalInner>
-            <ModalTitle>Do you want to add new todo?</ModalTitle>
+            <ModalTitle>What do you want to do?</ModalTitle>
             <ModalInput
-              placeholder="Type your todo..."
+              type="text"
+              placeholder="Ex.: Do a homework"
               onChange={changeNewTodoTitle}
               value={newTodo.title}
               onKeyPress={keyEnterPress}
             />
             <ModalButtonsWrapper>
-              <Button
+              <ModalButton
                 onClick={() => {
                   if (newTodo.title.length) {
                     toggleAddModalVisibility(todo);
@@ -133,9 +147,11 @@ export const Todo = ({
                   }
                 }}
               >
-                yes
-              </Button>
-              <Button onClick={toggleAddModalVisibility}>no</Button>
+                Add
+              </ModalButton>
+              <ModalButton onClick={toggleAddModalVisibility}>
+                Cancel
+              </ModalButton>
             </ModalButtonsWrapper>
           </ModalInner>
         </ModalOuter>
@@ -147,49 +163,83 @@ export const Todo = ({
 const Wrapper = styled.div`
   width: 100%;
   cursor: pointer;
-  padding: 6px;
+  padding: 8px;
   box-sizing: border-box;
   border-radius: 4px;
   transition: 0.1s ease;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  min-height: 40px;
   :hover {
-    background: #eee;
+    background: #ddd;
   }
 `;
 
 const Title = styled.span`
   text-decoration: ${(props) => (props.isComplete ? "line-through" : "none")};
-  font-size: 22px;
-  padding: 0 10px;
+  font-size: 18px;
   font-family: "Roboto Slab", serif;
   font-weight: 400;
+  display: flex;
+  align-items: center;
 `;
 
-const ButtonsWrapper = styled.div``;
+const ButtonsWrapper = styled.div`
+  display: flex;
+`;
 
 const Button = styled.button`
   margin-left: 10px;
   background: transparent;
-  border: 1px solid #ccc;
-  padding: 4px 10px;
-  border-radius: 8px;
+  border: 0;
+  font-size: 24px;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #777;
+  transition: 0.1s ease;
+
   :first-child {
     margin-left: 0;
   }
   :hover {
     cursor: pointer;
-  }
-  :active {
-    border-color: lightsteelblue;
+    color: black;
+    background: #ddd;
   }
 `;
 
-const ToggleChildrenButton = styled(Button)``;
+const Checkbox = styled.button`
+  font-size: 20px;
+  background: transparent;
+  padding: 0;
+  border: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 6px;
+  :hover {
+    cursor: pointer;
+  }
+`;
+
+const ToggleChildrenButton = styled(Button)`
+  font-size: 28px;
+  svg {
+    transition: 0.2s ease;
+    transform: ${(props) => (props.isShowChildren ? "rotate(-90deg)" : "")};
+  }
+`;
 
 const AddButton = styled(Button)``;
 
-const RemoveButton = styled(Button)``;
+const RemoveButton = styled(Button)`
+  svg {
+    transform: rotate(45deg);
+  }
+`;
 
 const ListLeftMargin = styled.div`
   margin-left: 20px;
@@ -223,19 +273,40 @@ const ModalInner = styled.div`
 
 const ModalTitle = styled.h2`
   font-family: "Roboto", sans;
-  padding-bottom: 20px;
+  padding-bottom: 40px;
 `;
 
 const ModalInput = styled.input`
   font-family: "Roboto", sans-serif;
   border-radius: 8px;
   border: 1px solid #ccc;
-  padding: 4px 10px;
+  padding: 6px 12px;
+  font-size: 16px;
   :focus {
     border-color: lightsteelblue;
   }
 `;
 
 const ModalButtonsWrapper = styled.div`
-  padding-top: 10px;
+  padding-top: 20px;
+`;
+
+const ModalButton = styled.button`
+  margin-left: 10px;
+  background: transparent;
+  border: 1px solid #ccc;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-family: "Roboto", sans-serif;
+  transition: 0.1s ease;
+  :first-child {
+    margin-left: 0;
+  }
+  :hover {
+    cursor: pointer;
+    background: #eee;
+  }
+  :active {
+    border-color: lightsteelblue;
+  }
 `;
