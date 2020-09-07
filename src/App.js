@@ -4,7 +4,7 @@ import { BiTrash } from "react-icons/bi";
 import { IoMdAdd } from "react-icons/io";
 
 import { TodoTree } from "./TodoTree";
-import { todosMock, newTodoMock, updateTodos } from "./utils";
+import { todosMock, newTodoMock } from "./mock";
 
 export const App = () => {
   // Main data: all todos with structure (object-array-object-array...)
@@ -20,48 +20,117 @@ export const App = () => {
     setNewTodo((state) => ({ ...state, title: value }));
   };
 
+  // WD: When interacting with the list, updates the old state
+  // HW: It is a recursive function that, by calling itself, iterates over all the data,
+  //     changes the selected item, and returns the entire new list.
+  //
+  //     Function arguments:
+  //     - prevTodos: initial state
+  //     - id: index of the item to be updated in state
+  //     - action: name of needable reaction with element
+  //     - temp?: temporary data for comparsion and iteration over the initial state
+  //     - nextTodos?: finished list of changed todos
+  //
+  //     If id is null that means there are global functions that works with all top-level list
+  //     Cycle iterate over every item and compare id with current id in cycle
+  //     When id === element.id performs an action based on the type name
+  //     If chosen element has children, run recursion for this list with new temp data
+  //     At the end of recursion nextTodos get fully new updated list and set it to React state
+  const updateTodos = (prevTodos, id, action, temp = {}, nextTodos = {}) => {
+    if (id === null) {
+      switch (action) {
+        case "add-global":
+          nextTodos = {
+            children: [...prevTodos.children, { ...newTodo, id: newTodo.id() }],
+          };
+          break;
+        case "remove-all":
+          nextTodos = { children: [] };
+          break;
+      }
+    } else {
+      for (let a in prevTodos) {
+        if (a === "children") {
+          temp[a] = prevTodos[a];
+          for (let b in prevTodos[a]) {
+            const element = prevTodos[a][b];
+            const toggledCompletedElement = {
+              ...element,
+              isComplete: !element.isComplete,
+            };
+            const toggledChildrenElement = {
+              ...element,
+              isShowChildren: !element.isShowChildren,
+            };
+
+            if (element.id === id) {
+              switch (action) {
+                case "toggle-complete":
+                  temp[a][b] = toggledCompletedElement;
+                  break;
+                case "toggle-children":
+                  temp[a][b] = toggledChildrenElement;
+                  break;
+                case "remove":
+                  temp[a] = temp[a].filter((todo) => todo.id !== id);
+                  break;
+                case "add":
+                  temp[a][b].children = [
+                    ...temp[a][b].children,
+                    { ...newTodo, id: newTodo.id() },
+                  ];
+                  break;
+              }
+            }
+
+            if (temp[a].length) {
+              updateTodos(prevTodos[a][b], id, action, temp[a][b], nextTodos);
+            }
+            nextTodos = { ...temp };
+          }
+        }
+      }
+    }
+
+    setTodos(nextTodos);
+  };
+
   // WD: Toggles the complete status of one todo
-  // HW: Set new state with changed element in old state
+  // HW: Update state with changed element in old state
   const toggleIsTodoComplete = (todo) => {
-    const newTodos = updateTodos(todos, todo.id, "toggle-complete");
-    setTodos(newTodos);
+    updateTodos(todos, todo.id, "toggle-complete");
   };
 
   // WD: Toggles the display of children for an element
-  // HW: Set new state with changed element in old state
+  // HW: Update state with changed element in old state
   const toggleIsTodoShowChildren = (todo) => {
-    const newTodos = updateTodos(todos, todo.id, "toggle-children");
-    setTodos(newTodos);
+    updateTodos(todos, todo.id, "toggle-children");
   };
 
   // WD: Add new todo to exist element or to main list
-  // HW: Set new state with changed element in old state
+  // HW: Update state with changed element in old state
   //     If clicked "add" on exist todo (type === "add"), add new todo to children of it
   //     else (type === "add-global") add new todo to top-level list
   const addNewTodo = (todo, type = "add") => {
     if (todo !== null && !todo.isComplete) {
-      const newTodos = updateTodos(todos, todo.id, type);
-      setTodos(newTodos);
+      updateTodos(todos, todo.id, type);
     } else {
-      const newTodos = updateTodos(todos, null, type);
-      setTodos(newTodos);
+      updateTodos(todos, null, type);
     }
   };
 
   // WD: Remove one todo
-  // HW: Set new state with changed element in old state
+  // HW: Update state with changed element in old state
   const removeTodo = (todo) => {
     if (todo.isComplete) {
-      const newTodos = updateTodos(todos, todo.id, "remove");
-      setTodos(newTodos);
+      updateTodos(todos, todo.id, "remove");
     }
   };
 
   // WD: Remove all todos
-  // HW: Set new state with changed element in old state
+  // HW: Update state with changed element in old state
   const removeAllTodos = () => {
-    const newTodos = updateTodos(todos, null, "remove-all");
-    setTodos(newTodos);
+    updateTodos(todos, null, "remove-all");
   };
 
   return (
