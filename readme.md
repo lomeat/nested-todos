@@ -11,9 +11,9 @@ App made for [Digital Spectr](https://digital-spectr.ru/) as test job.
 
 ## Conditions
 
-- [ ] Adding an item to the Todo list. When you click the ADD ITEM button, a pop-up window opens with a form.
-- [ ] Deleting a list item (should be available only for already completed items). When you click the DELETE link, a pop-up window appears “Are you sure you want to delete the item?”
-- [ ] Mark the list item as done (checkbox)
+- [x] Adding an item to the Todo list. When you click the ADD ITEM button, a pop-up window opens with a form.
+- [x] Deleting a list item (should be available only for already completed items). When you click the DELETE link, a pop-up window appears “Are you sure you want to delete the item?”
+- [x] Mark the list item as done (checkbox)
 - [x] All completed elements are automatically moved to the end of the list at the current nesting level
 - [x] For external design, you can use frameworks like bootstrap
 - [x] Limit the allowed nesting of elements to 3 levels
@@ -21,6 +21,9 @@ App made for [Digital Spectr](https://digital-spectr.ru/) as test job.
 ## Additional features
 
 - "Show/Hide" button allows to control visibility of children todos of every nested element
+- Pretty icons
+- Simple minimalistic colors
+- Saving all current todos to local storage
 
 ## Legend
 
@@ -36,7 +39,4 @@ App made for [Digital Spectr](https://digital-spectr.ru/) as test job.
 - **fix**: Fix some bugs in exist functionality
 - **docs**: Work with comments/documentation of code. Additional information that helps to read the app
 - **init**: Configure the setup of project
-
-## Known issues
-
-- Stack overhead when add many new todos. Because uses recursive function with cycle inner it for update state
+- **styl**: Style the components
