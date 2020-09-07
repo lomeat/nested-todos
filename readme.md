@@ -40,3 +40,20 @@ App made for [Digital Spectr](https://digital-spectr.ru/) as test job.
 - **docs**: Work with comments/documentation of code. Additional information that helps to read the app
 - **init**: Configure the setup of project
 - **styl**: Style the components
+
+---
+
+## Roadmap
+
+- [ ] Add Drag & Drop with nesting elements
+- [ ] Increase nested level to infinity
+- [ ] Add animations (adding/removing)
+- [ ] Add Redux or MobX to manage state
+- [ ] Remake core logic with state update
+- [ ] Redesign with simple but accent colors
+- [ ] Create other UI components
+- [ ] Complete all children elements when parent completed
+- [ ] Remove only completed todos ant their children
+- [ ] Toggle dark/light theme
+- [ ] Mobile support
+- [ ] Authentification with Google API
