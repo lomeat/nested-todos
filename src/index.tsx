@@ -24,6 +24,7 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 const store = createStore(reducer);
+console.log(store.getState());
 
 render(
   <Provider store={store}>

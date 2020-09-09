@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import styled from "styled-components";
 import { BiChevronLeft } from "react-icons/bi";
 import { GrCheckbox, GrCheckboxSelected } from "react-icons/gr";
 import { IoMdAdd } from "react-icons/io";
@@ -22,13 +21,13 @@ export const TodoComponent = ({
   // ...to make limit
   const nestedLimit = 3;
 
-  const [isRemoveModalOpen, setIsRemoveModal] = useState(false);
+  const [isRemoveModalOpen, setIsRemoveModalOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   const [newTodoTitle, setNewTodoTitle] = useState("");
 
   const toggleRemoveModalVisibility = (todo = null) => {
-    setIsRemoveModal((state) => !state);
+    setIsRemoveModalOpen((state) => !state);
     if (todo) {
       removeTodo(todo.id);
     }

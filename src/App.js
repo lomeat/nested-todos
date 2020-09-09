@@ -1,122 +1,31 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { connect } from "react-redux";
 import { BiTrash } from "react-icons/bi";
 import { IoMdAdd } from "react-icons/io";
 
 import { TodoTree } from "./TodoTree";
-import { todosMock, newTodoMock } from "./mock";
 
-export const App = () => {
-  const [todos, setTodos] = useState(
-    JSON.parse(localStorage.getItem("todos")) || todosMock
-  );
-  const [newTodo, setNewTodo] = useState(newTodoMock);
+export const AppComponent = ({ todos, addTodo, removeAllTodos }) => {
+  const [newTodoTitle, setNewTodoTitle] = useState("");
 
   const changeNewTodoTitle = (e) => {
     e.preventDefault();
     const { value } = e.currentTarget;
-    setNewTodo((state) => ({ ...state, title: value }));
-  };
-
-  // It is a recursive function that, by calling itself, iterates over all the data,
-  // changes the selected item, and returns the entire new list.
-  //
-  // Function arguments:
-  // - prevTodos: initial state
-  // - id: id of element to be updated in state
-  // - action: name of needable action with element
-  // - temp?: temporary data for comparsion and iteration over the initial state
-  // - nextTodos?: finished list of changed todos
-  const updateTodos = (prevTodos, id, action, temp = {}, nextTodos = {}) => {
-    if (id === null) {
-      switch (action) {
-        case "add-global":
-          nextTodos = {
-            children: [...prevTodos.children, { ...newTodo, id: newTodo.id() }],
-          };
-          break;
-        case "remove-all":
-          nextTodos = { children: [] };
-          break;
-      }
-    } else {
-      for (let a in prevTodos) {
-        if (a === "children") {
-          temp[a] = prevTodos[a];
-          for (let b in prevTodos[a]) {
-            const element = prevTodos[a][b];
-            const toggledCompletedElement = {
-              ...element,
-              isComplete: !element.isComplete,
-            };
-            const toggledChildrenElement = {
-              ...element,
-              isShowChildren: !element.isShowChildren,
-            };
-
-            if (element.id === id) {
-              switch (action) {
-                case "toggle-complete":
-                  temp[a][b] = toggledCompletedElement;
-                  break;
-                case "toggle-children":
-                  temp[a][b] = toggledChildrenElement;
-                  break;
-                case "remove":
-                  temp[a] = temp[a].filter((todo) => todo.id !== id);
-                  break;
-                case "add":
-                  temp[a][b].children = [
-                    ...temp[a][b].children,
-                    { ...newTodo, id: newTodo.id() },
-                  ];
-                  break;
-              }
-            }
-
-            if (temp[a].length) {
-              updateTodos(prevTodos[a][b], id, action, temp[a][b], nextTodos);
-            }
-            nextTodos = { ...temp };
-          }
-        }
-      }
-    }
-
-    setTodos(nextTodos);
-    localStorage.setItem("todos", JSON.stringify(nextTodos));
-  };
-
-  const toggleIsTodoComplete = (todo) => {
-    updateTodos(todos, todo.id, "toggle-complete");
-  };
-
-  const toggleIsTodoShowChildren = (todo) => {
-    updateTodos(todos, todo.id, "toggle-children");
-  };
-
-  const addNewTodo = (todo, type = "add") => {
-    if (todo !== null && !todo.isComplete) {
-      updateTodos(todos, todo.id, type);
-    } else {
-      updateTodos(todos, null, type);
-    }
-  };
-
-  const removeTodo = (todo) => {
-    if (todo.isComplete) {
-      updateTodos(todos, todo.id, "remove");
-    }
-  };
-
-  const removeAllTodos = () => {
-    updateTodos(todos, null, "remove-all");
+    setNewTodoTitle(value);
   };
 
   const keyEnterPress = (e) => {
-    if (e.key === "Enter" && newTodo.title.length) {
-      addNewTodo(null, "add-global");
-      setNewTodo((state) => ({ ...state, title: "" }));
+    if (e.keyCode === 13 && newTodoTitle.length) {
+      addTodo(newTodoTitle);
+      setNewTodoTitle("");
+    }
+  };
+
+  const clickAddTodoButton = () => {
+    if (newTodoTitle.length) {
+      addTodo(newTodoTitle);
+      setNewTodoTitle("");
     }
   };
 
@@ -128,18 +37,11 @@ export const App = () => {
           <Input
             type="text"
             placeholder="Ex.: Do a homework"
-            value={newTodo.title}
+            value={newTodoTitle}
             onChange={changeNewTodoTitle}
-            onKeyPress={keyEnterPress}
+            onKeyDown={keyEnterPress}
           />
-          <AddNewTodoButton
-            onClick={() => {
-              if (newTodo.title.length) {
-                addNewTodo(null, "add-global");
-                setNewTodo((state) => ({ ...state, title: "" }));
-              }
-            }}
-          >
+          <AddNewTodoButton onClick={clickAddTodoButton}>
             <IoMdAdd />
           </AddNewTodoButton>
           <RemoveAllButton onClick={removeAllTodos}>
@@ -147,20 +49,23 @@ export const App = () => {
           </RemoveAllButton>
         </EditListWrapper>
         <TreeWrapper>
-          <TodoTree
-            children={todos.children}
-            addNewTodo={addNewTodo}
-            toggleIsTodoComplete={toggleIsTodoComplete}
-            toggleIsTodoShowChildren={toggleIsTodoShowChildren}
-            removeTodo={removeTodo}
-            newTodo={newTodo}
-            setNewTodo={setNewTodo}
-          />
+          <TodoTree children={todos.children} />
         </TreeWrapper>
       </Container>
     </Wrapper>
   );
 };
+
+const mapState = (state) => ({
+  todos: state.todos,
+});
+
+const mapDispatch = (dispatch) => ({
+  addTodo: (title) => dispatch({ type: "TODO_ADD_TO_ROOT", title }),
+  removeAllTodos: () => dispatch({ type: "ALL_TODOS_REMOVE" }),
+});
+
+export const App = connect(mapState, mapDispatch)(AppComponent);
 
 const Wrapper = styled.div`
   width: 100vw;
