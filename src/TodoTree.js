@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Todo } from "./Todo";
+import { Todo } from "./Todo/";
 
 export const TodoTree = (props) => (
   <>
