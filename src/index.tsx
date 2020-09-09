@@ -3,8 +3,11 @@ import { render } from "react-dom";
 import "normalize.css";
 import { createGlobalStyle } from "styled-components";
 import WebFont from "webfontloader";
+import { createStore } from "redux";
+import { Provider } from "react-redux";
 
 import { App } from "./App";
+import reducer from "./reducers";
 
 WebFont.load({
   google: {
@@ -20,10 +23,12 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
+const store = createStore(reducer);
+
 render(
-  <>
+  <Provider store={store}>
     <GlobalStyle />
     <App />
-  </>,
+  </Provider>,
   document.getElementById("root")
 );
