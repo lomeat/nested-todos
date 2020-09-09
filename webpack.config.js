@@ -1,11 +1,12 @@
-const path = require("path");
+const { resolve } = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 
 module.exports = {
   entry: "./src/index.js",
   output: {
-    path: path.resolve(__dirname, "public"),
+    path: resolve(__dirname, "public"),
     filename: "bundle.js",
   },
   mode: "development",
@@ -18,9 +19,18 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(js|jsx)/,
+        test: /\.(ts|js|tsx|jsx)/,
         exclude: /node_modules/,
-        use: ["babel-loader"],
+        use: {
+          loader: "babel-loader",
+          options: {
+            presets: [
+              "@babel/preset-env",
+              "@babel/preset-react",
+              "@babel/preset-typescript",
+            ],
+          },
+        },
       },
       {
         test: /\.(png|svg|jpg|gif)$/,
@@ -37,12 +47,18 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: ["*", ".js", ".jsx"],
+    extensions: ["*", ".tsx", ".ts", ".js"],
   },
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      template: "./src/template.html",
+      template: require("html-webpack-template"),
+      title: "Nested Todo App",
+      appMountId: "root",
+      lang: "es-US",
+    }),
+    new ForkTsCheckerWebpackPlugin({
+      async: false,
     }),
   ],
 };

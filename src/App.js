@@ -91,11 +91,10 @@ export const App = () => {
     updateTodos(todos, todo.id, "toggle-complete");
   };
 
-  x;
   const toggleIsTodoShowChildren = (todo) => {
     updateTodos(todos, todo.id, "toggle-children");
   };
-  x;
+
   const addNewTodo = (todo, type = "add") => {
     if (todo !== null && !todo.isComplete) {
       updateTodos(todos, todo.id, type);
