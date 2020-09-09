@@ -28,6 +28,7 @@ App made for [Digital Spectr](https://digital-spectr.ru/) as test job.
 - [ ] Divide responsibility between modules
 - [ ] Separate code and styles
 
+<!--
 ## Legend
 
 ### Commits
@@ -39,7 +40,7 @@ App made for [Digital Spectr](https://digital-spectr.ru/) as test job.
 - **init**: Configure the setup of project
 - **styl**: Style the components
 
-<!-- ---
+ ---
 
 ## Roadmap
 

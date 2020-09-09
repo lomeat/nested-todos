@@ -7,37 +7,26 @@ import { TodoTree } from "./TodoTree";
 import { todosMock, newTodoMock } from "./mock";
 
 export const App = () => {
-  // Main data: all todos with structure (object-array-object-array...)
   const [todos, setTodos] = useState(
     JSON.parse(localStorage.getItem("todos")) || todosMock
   );
-  // Template for new added todo
   const [newTodo, setNewTodo] = useState(newTodoMock);
 
-  // WD: Handles changes of new todo title
-  // HW: Set new title value from input to todo template
   const changeNewTodoTitle = (e) => {
     e.preventDefault();
     const { value } = e.currentTarget;
     setNewTodo((state) => ({ ...state, title: value }));
   };
 
-  // WD: When interacting with the list, updates the old state
-  // HW: It is a recursive function that, by calling itself, iterates over all the data,
-  //     changes the selected item, and returns the entire new list.
+  // It is a recursive function that, by calling itself, iterates over all the data,
+  // changes the selected item, and returns the entire new list.
   //
-  //     Function arguments:
-  //     - prevTodos: initial state
-  //     - id: index of the item to be updated in state
-  //     - action: name of needable reaction with element
-  //     - temp?: temporary data for comparsion and iteration over the initial state
-  //     - nextTodos?: finished list of changed todos
-  //
-  //     If id is null that means there are global functions that works with all top-level list
-  //     Cycle iterate over every item and compare id with current id in cycle
-  //     When id === element.id performs an action based on the type name
-  //     If chosen element has children, run recursion for this list with new temp data
-  //     At the end of recursion nextTodos get fully new updated list and set it to React state
+  // Function arguments:
+  // - prevTodos: initial state
+  // - id: id of element to be updated in state
+  // - action: name of needable action with element
+  // - temp?: temporary data for comparsion and iteration over the initial state
+  // - nextTodos?: finished list of changed todos
   const updateTodos = (prevTodos, id, action, temp = {}, nextTodos = {}) => {
     if (id === null) {
       switch (action) {
@@ -98,22 +87,15 @@ export const App = () => {
     localStorage.setItem("todos", JSON.stringify(nextTodos));
   };
 
-  // WD: Toggles the complete status of one todo
-  // HW: Update state with changed element in old state
   const toggleIsTodoComplete = (todo) => {
     updateTodos(todos, todo.id, "toggle-complete");
   };
 
-  // WD: Toggles the display of children for an element
-  // HW: Update state with changed element in old state
+  x;
   const toggleIsTodoShowChildren = (todo) => {
     updateTodos(todos, todo.id, "toggle-children");
   };
-
-  // WD: Add new todo to exist element or to main list
-  // HW: Update state with changed element in old state
-  //     If clicked "add" on exist todo (type === "add"), add new todo to children of it
-  //     else (type === "add-global") add new todo to top-level list
+  x;
   const addNewTodo = (todo, type = "add") => {
     if (todo !== null && !todo.isComplete) {
       updateTodos(todos, todo.id, type);
@@ -122,22 +104,16 @@ export const App = () => {
     }
   };
 
-  // WD: Remove one todo
-  // HW: Update state with changed element in old state
   const removeTodo = (todo) => {
     if (todo.isComplete) {
       updateTodos(todos, todo.id, "remove");
     }
   };
 
-  // WD: Remove all todos
-  // HW: Update state with changed element in old state
   const removeAllTodos = () => {
     updateTodos(todos, null, "remove-all");
   };
 
-  // WD: Create new todo with keyboard
-  // HW: Check if pressed "Enter" when some typed in input
   const keyEnterPress = (e) => {
     if (e.key === "Enter" && newTodo.title.length) {
       addNewTodo(null, "add-global");

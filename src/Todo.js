@@ -24,9 +24,6 @@ export const Todo = ({
   const [isRemoveModalOpen, setIsRemoveModal] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
-  // WD: Toggles the display of remove modal
-  // HW: Shows/hides the modal block
-  //     If answered "yes" delete clicked element
   const toggleRemoveModalVisibility = (todo = null) => {
     setIsRemoveModal((state) => !state);
     if (todo) {
@@ -34,9 +31,6 @@ export const Todo = ({
     }
   };
 
-  // WD: Toggles the display of remove modal
-  // HW: Shows/hides the modal block
-  //     If answered "yes", add new todo to clicked element
   const toggleAddModalVisibility = (todo = null) => {
     setIsAddModalOpen((state) => !state);
     if (todo) {
@@ -44,16 +38,12 @@ export const Todo = ({
     }
   };
 
-  // WD: Handles changes of new todo title
-  // HW: Set new title value from input to todo template
   const changeNewTodoTitle = (e) => {
     e.preventDefault();
     const { value } = e.currentTarget;
     setNewTodo((state) => ({ ...state, title: value }));
   };
 
-  // WD: Create new todo with keyboard
-  // HW: Check if pressed "Enter" when some typed in input
   const keyEnterPress = (e) => {
     if (e.key === "Enter" && newTodo.title.length) {
       toggleAddModalVisibility(todo);
