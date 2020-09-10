@@ -26,7 +26,7 @@ App made for [Digital Spectr](https://digital-spectr.ru/) as test job.
 - [x] Remake on TypeScript
 - [x] Add state management
 - [x] Separate code and styles
-- [ ] Divide responsibility between modules
+- [x] Divide responsibility between modules
 
 <!--
 ## Legend

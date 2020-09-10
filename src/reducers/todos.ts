@@ -8,7 +8,15 @@ import {
 } from "../constants/actionTypes";
 import { todosMock, newTodoMock } from "../mock";
 
-const initState: TodoState = todosMock;
+let initState: TodoState;
+const local: string | null = localStorage.getItem("todos");
+
+if (typeof local === "string") {
+  initState = JSON.parse(local);
+} else {
+  initState = todosMock;
+}
+
 const newTodo = newTodoMock;
 
 // It is a recursive function that, by calling itself, iterates over all the data,
@@ -86,5 +94,6 @@ export const todos = (
     }
   }
 
+  localStorage.setItem("todos", JSON.stringify(nextTodos));
   return nextTodos;
 };
