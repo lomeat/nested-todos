@@ -1,4 +1,4 @@
-import React, { Dispatch, FormEvent, useState } from "react";
+import React, { useState } from "react";
 import { BiChevronLeft } from "react-icons/bi";
 import { GrCheckbox, GrCheckboxSelected } from "react-icons/gr";
 import { IoMdAdd } from "react-icons/io";
@@ -161,13 +161,13 @@ export const TodoComponent: any = ({
   );
 };
 
-type Action =
+type TodoAction =
   | { type: "TODO_ADD_TO_EXIST"; id: TodoId; title: string }
   | { type: "TODO_TOGGLE_COMPLETE"; id: TodoId }
   | { type: "TODO_TOGGLE_SHOW_CHILDREN"; id: TodoId }
   | { type: "TODO_REMOVE"; id: TodoId };
 
-const mapDispatch = (dispatch: Dispatch<Action>) => ({
+const mapDispatch = (dispatch: React.Dispatch<TodoAction>) => ({
   addTodo: (id: TodoId, title: string) =>
     dispatch({ type: "TODO_ADD_TO_EXIST", id, title }),
   toggleIsTodoComplete: (id: TodoId) =>

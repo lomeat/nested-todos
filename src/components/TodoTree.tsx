@@ -2,11 +2,11 @@ import React from "react";
 
 import { Todo, TodoType } from "./Todo";
 
-type Tree = TodoType[];
+export type TodoTreeType = TodoType[];
 
 type TodoTreeProps = {
-  children: Tree;
-  nestedLevel: number;
+  children: TodoTreeType;
+  nestedLevel?: number;
 };
 
 export const TodoTree = ({ children, nestedLevel }: TodoTreeProps) => (

@@ -1,26 +1,5 @@
 import styled from "styled-components";
 
-export const Wrapper = styled.div`
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #f4f4f4;
-`;
-
-export const Container = styled.div`
-  width: 600px;
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-export const Title = styled.h1`
-  font-family: "Roboto", sans-serif;
-`;
-
 export const EditListWrapper = styled.div`
   display: flex;
   padding: 80px 0 40px 0;
