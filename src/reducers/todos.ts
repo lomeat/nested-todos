@@ -11,6 +11,28 @@ import { todosMock, newTodoMock } from "../mock";
 const initState = todosMock;
 const newTodo = newTodoMock;
 
+type TodoId = number;
+
+type Todo = {
+  id: TodoId;
+  title: string;
+  isComplete: boolean;
+  isShowChildren: boolean;
+  children: Todo[];
+};
+
+type Tree = Todo[];
+
+type Todos = {
+  children: Tree;
+};
+
+type Action = {
+  type: string;
+  id?: number;
+  title?: string;
+};
+
 // It is a recursive function that, by calling itself, iterates over all the data,
 // changes the selected item, and returns the entire new list.
 //
@@ -20,10 +42,10 @@ const newTodo = newTodoMock;
 // - temp?: temporary data for comparsion and iteration over the initial state
 // - nextTodos?: finished list of changed todos
 export const todos = (
-  prevTodos = initState,
-  action,
-  temp = {},
-  nextTodos = {}
+  prevTodos: Todos = initState,
+  action: Action,
+  temp: any = {},
+  nextTodos: any = {}
 ) => {
   if (!action.id) {
     switch (action.type) {
@@ -65,7 +87,7 @@ export const todos = (
                 temp[a][b] = toggledChildrenElement;
                 break;
               case TODO_REMOVE:
-                temp[a] = temp[a].filter((todo) => todo.id !== action.id);
+                temp[a] = temp[a].filter((todo: Todo) => todo.id !== action.id);
                 break;
               case TODO_ADD_TO_EXIST:
                 temp[a][b].children = [

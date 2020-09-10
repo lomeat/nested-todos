@@ -7,28 +7,31 @@ import {
   ALL_TODOS_REMOVE,
 } from "../constants/actionTypes";
 
-export const addTodoToExist = (id, title) => ({
+type TodoId = number;
+type TodoTitle = string;
+
+export const addTodoToExist = (id: TodoId, title: TodoTitle) => ({
   type: TODO_ADD_TO_EXIST,
   id,
   title,
 });
 
-export const addTodoToRoot = (title) => ({
+export const addTodoToRoot = (title: TodoTitle) => ({
   type: TODO_ADD_TO_ROOT,
   title,
 });
 
-export const toggleIsTodoComplete = (id) => ({
+export const toggleIsTodoComplete = (id: TodoId) => ({
   type: TODO_TOGGLE_COMPLETE,
   id,
 });
 
-export const toggleIsTodoShowChildren = (id) => ({
+export const toggleIsTodoShowChildren = (id: TodoId) => ({
   type: TODO_TOGGLE_SHOW_CHILDREN,
   id,
 });
 
-export const removeTodo = (id) => ({
+export const removeTodo = (id: TodoId) => ({
   type: TODO_REMOVE,
   id,
 });
