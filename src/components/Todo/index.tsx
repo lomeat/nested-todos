@@ -1,57 +1,66 @@
-import React, { useState } from "react";
+import * as React from "react";
 import { BiChevronLeft } from "react-icons/bi";
 import { GrCheckbox, GrCheckboxSelected } from "react-icons/gr";
 import { IoMdAdd } from "react-icons/io";
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
+import { Dispatch } from "redux";
+import {
+  addTodoToExist,
+  toggleIsTodoComplete,
+  toggleIsTodoShowChildren,
+  removeTodo,
+} from "../../actions";
 
 import { TodoTree } from "../TodoTree";
 import * as SC from "./styles";
 
-type TodoId = number;
-
-export type TodoType = {
-  id: TodoId;
-  title: string;
-  isComplete: boolean;
-  isShowChildren: boolean;
-  children: TodoType[];
-};
-
-type TodoProps = {
-  todo: TodoType;
+type Props = {
+  todo: ITodo;
   nestedLevel: number;
-  toggleIsTodoComplete: (id: TodoId) => TodoId;
-  toggleIsTodoShowChildren: (id: TodoId) => TodoId;
-  addTodo: (id: TodoId, title: string) => TodoId;
-  removeTodo: (id: TodoId) => TodoId;
 };
 
-export const TodoComponent: any = ({
-  todo,
-  nestedLevel,
-  toggleIsTodoComplete,
-  toggleIsTodoShowChildren,
-  addTodo,
-  removeTodo,
-}: TodoProps) => {
+export const Todo: React.FC<Props> = ({ todo, nestedLevel }) => {
   // Recursive count the level of nested lists...
   const newNestedLevel = nestedLevel + 1;
   // ...to make limit
   const nestedLimit = 3;
 
-  const [isRemoveModalOpen, setIsRemoveModalOpen] = useState<boolean>(false);
-  const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
+  const [isRemoveModalOpen, setIsRemoveModalOpen] = React.useState<boolean>(
+    false
+  );
+  const [isAddModalOpen, setIsAddModalOpen] = React.useState<boolean>(false);
+  const [newTodoTitle, setNewTodoTitle] = React.useState<string>("");
 
-  const [newTodoTitle, setNewTodoTitle] = useState("");
+  const dispatch: Dispatch<TodoAction> = useDispatch();
 
-  const toggleRemoveModalVisibility = (todo: TodoType | null = null) => {
+  const addTodo: any = React.useCallback(
+    (id: TodoId, title: string) => dispatch(addTodoToExist(id, title)),
+    [dispatch]
+  );
+
+  const toggleComplete: any = React.useCallback(
+    (id: TodoId) => dispatch(toggleIsTodoComplete(id)),
+    [dispatch]
+  );
+
+  const toggleShow: any = React.useCallback(
+    (id: TodoId) => dispatch(toggleIsTodoShowChildren(id)),
+    [dispatch]
+  );
+
+  const remove: any = React.useCallback(
+    (id: TodoId) => dispatch(removeTodo(id)),
+    [dispatch]
+  );
+
+  const toggleRemoveModalVisibility = (todo?: ITodo) => {
     setIsRemoveModalOpen((state) => !state);
     if (todo) {
-      removeTodo(todo.id);
+      remove(todo.id);
     }
   };
 
-  const toggleAddModalVisibility = (todo: TodoType | null = null) => {
+  const toggleAddModalVisibility = (todo?: ITodo) => {
     setIsAddModalOpen((state) => !state);
     if (todo) {
       addTodo(todo.id, newTodoTitle);
@@ -64,7 +73,7 @@ export const TodoComponent: any = ({
     setNewTodoTitle(value);
   };
 
-  const keyEnterPress = (e: any) => {
+  const keyEnterPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && newTodoTitle.length) {
       toggleAddModalVisibility(todo);
       setNewTodoTitle("");
@@ -76,7 +85,7 @@ export const TodoComponent: any = ({
       <SC.Wrapper key={todo.id}>
         <SC.Title
           isComplete={todo.isComplete}
-          onClick={() => toggleIsTodoComplete(todo.id)}
+          onClick={() => toggleComplete(todo.id)}
         >
           <SC.Checkbox>
             {todo.isComplete ? <GrCheckboxSelected /> : <GrCheckbox />}
@@ -86,7 +95,7 @@ export const TodoComponent: any = ({
         <SC.ButtonsWrapper>
           {nestedLevel < nestedLimit && todo.children.length > 0 && (
             <SC.ToggleChildrenButton
-              onClick={() => toggleIsTodoShowChildren(todo.id)}
+              onClick={() => toggleShow(todo.id)}
               isShowChildren={todo.isShowChildren}
             >
               {todo.isShowChildren ? <BiChevronLeft /> : <BiChevronLeft />}
@@ -160,21 +169,3 @@ export const TodoComponent: any = ({
     </>
   );
 };
-
-type TodoAction =
-  | { type: "TODO_ADD_TO_EXIST"; id: TodoId; title: string }
-  | { type: "TODO_TOGGLE_COMPLETE"; id: TodoId }
-  | { type: "TODO_TOGGLE_SHOW_CHILDREN"; id: TodoId }
-  | { type: "TODO_REMOVE"; id: TodoId };
-
-const mapDispatch = (dispatch: React.Dispatch<TodoAction>) => ({
-  addTodo: (id: TodoId, title: string) =>
-    dispatch({ type: "TODO_ADD_TO_EXIST", id, title }),
-  toggleIsTodoComplete: (id: TodoId) =>
-    dispatch({ type: "TODO_TOGGLE_COMPLETE", id }),
-  toggleIsTodoShowChildren: (id: TodoId) =>
-    dispatch({ type: "TODO_TOGGLE_SHOW_CHILDREN", id }),
-  removeTodo: (id: TodoId) => dispatch({ type: "TODO_REMOVE", id }),
-});
-
-export const Todo: any = connect(null, mapDispatch)(TodoComponent);

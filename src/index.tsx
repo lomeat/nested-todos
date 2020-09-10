@@ -3,7 +3,7 @@ import { render } from "react-dom";
 import "normalize.css";
 import { createGlobalStyle } from "styled-components";
 import WebFont from "webfontloader";
-import { createStore } from "redux";
+import { createStore, Store } from "redux";
 import { Provider } from "react-redux";
 
 import { App } from "./components/App";
@@ -23,7 +23,9 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-const store = createStore(reducer);
+const store: Store<TodoState, TodoAction> & {
+  dispatch: DispatchTodoType;
+} = createStore(reducer);
 console.log(store.getState());
 
 render(

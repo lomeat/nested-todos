@@ -8,30 +8,8 @@ import {
 } from "../constants/actionTypes";
 import { todosMock, newTodoMock } from "../mock";
 
-const initState = todosMock;
+const initState: TodoState = todosMock;
 const newTodo = newTodoMock;
-
-type TodoId = number;
-
-type Todo = {
-  id: TodoId;
-  title: string;
-  isComplete: boolean;
-  isShowChildren: boolean;
-  children: Todo[];
-};
-
-type Tree = Todo[];
-
-type Todos = {
-  children: Tree;
-};
-
-type Action = {
-  type: string;
-  id?: number;
-  title?: string;
-};
 
 // It is a recursive function that, by calling itself, iterates over all the data,
 // changes the selected item, and returns the entire new list.
@@ -42,11 +20,11 @@ type Action = {
 // - temp?: temporary data for comparsion and iteration over the initial state
 // - nextTodos?: finished list of changed todos
 export const todos = (
-  prevTodos: Todos = initState,
-  action: Action,
+  prevTodos: TodoState = initState,
+  action: TodoAction,
   temp: any = {},
   nextTodos: any = {}
-) => {
+): TodoState => {
   if (!action.id) {
     switch (action.type) {
       case TODO_ADD_TO_ROOT:
@@ -68,12 +46,12 @@ export const todos = (
       if (a === "children") {
         temp[a] = prevTodos[a];
         for (let b in prevTodos[a]) {
-          const element = prevTodos[a][b];
-          const toggledCompletedElement = {
+          const element: ITodo = prevTodos[a][b];
+          const toggledCompletedElement: ITodo = {
             ...element,
             isComplete: !element.isComplete,
           };
-          const toggledChildrenElement = {
+          const toggledChildrenElement: ITodo = {
             ...element,
             isShowChildren: !element.isShowChildren,
           };
@@ -87,7 +65,9 @@ export const todos = (
                 temp[a][b] = toggledChildrenElement;
                 break;
               case TODO_REMOVE:
-                temp[a] = temp[a].filter((todo: Todo) => todo.id !== action.id);
+                temp[a] = temp[a].filter(
+                  (todo: ITodo) => todo.id !== action.id
+                );
                 break;
               case TODO_ADD_TO_EXIST:
                 temp[a][b].children = [

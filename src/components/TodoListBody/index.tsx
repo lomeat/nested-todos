@@ -1,25 +1,30 @@
-import React, { useState } from "react";
-import { connect } from "react-redux";
+import * as React from "react";
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
+import { Dispatch } from "redux";
 import { BiTrash } from "react-icons/bi";
 import { IoMdAdd } from "react-icons/io";
 
-import { TodoTree, TodoTreeType } from "../TodoTree";
+import { TodoTree } from "../TodoTree";
+import { addTodoToRoot, removeAllTodos } from "../../actions";
 import * as SC from "./styles";
 
-type TodoListBodyProps = {
-  todos: {
-    children: TodoTreeType;
-  };
-  addTodo: (title: string) => string;
-  removeAllTodos: () => {};
-};
+export const TodoListBody: any = () => {
+  const [newTodoTitle, setNewTodoTitle] = React.useState<string>("");
+  const dispatch: Dispatch<TodoAction> = useDispatch();
 
-export const TodoListBodyComponent: any = ({
-  todos,
-  addTodo,
-  removeAllTodos,
-}: TodoListBodyProps) => {
-  const [newTodoTitle, setNewTodoTitle] = useState<string>("");
+  const todos: TodoState = useSelector(
+    (state: TodoReduxState) => state.todos,
+    shallowEqual
+  );
+
+  const addTodo: any = React.useCallback(
+    (title: string) => dispatch(addTodoToRoot(title)),
+    [dispatch]
+  );
+
+  const removeAll: any = React.useCallback(() => dispatch(removeAllTodos()), [
+    dispatch,
+  ]);
 
   const changeNewTodoTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -54,7 +59,7 @@ export const TodoListBodyComponent: any = ({
         <SC.AddNewTodoButton onClick={clickAddTodoButton}>
           <IoMdAdd />
         </SC.AddNewTodoButton>
-        <SC.RemoveAllButton onClick={removeAllTodos}>
+        <SC.RemoveAllButton onClick={removeAll}>
           <BiTrash />
         </SC.RemoveAllButton>
       </SC.EditListWrapper>
@@ -64,25 +69,3 @@ export const TodoListBodyComponent: any = ({
     </>
   );
 };
-
-type TodoState = {
-  todos: TodoTreeType;
-};
-
-const mapState = (state: TodoState) => ({
-  todos: state.todos,
-});
-
-type TodoAction =
-  | { type: "TODO_ADD_TO_ROOT"; title: string }
-  | { type: "ALL_TODOS_REMOVE" };
-
-const mapDispatch = (dispatch: React.Dispatch<TodoAction>) => ({
-  addTodo: (title: string) => dispatch({ type: "TODO_ADD_TO_ROOT", title }),
-  removeAllTodos: () => dispatch({ type: "ALL_TODOS_REMOVE" }),
-});
-
-export const TodoListBody = connect(
-  mapState,
-  mapDispatch
-)(TodoListBodyComponent);

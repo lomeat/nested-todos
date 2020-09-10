@@ -1,15 +1,13 @@
 import React from "react";
 
-import { Todo, TodoType } from "./Todo";
+import { Todo } from "./Todo";
 
-export type TodoTreeType = TodoType[];
-
-type TodoTreeProps = {
-  children: TodoTreeType;
+type Props = {
+  children: Tree;
   nestedLevel?: number;
 };
 
-export const TodoTree = ({ children, nestedLevel }: TodoTreeProps) => (
+export const TodoTree: React.FC<Props> = ({ children, nestedLevel }) => (
   <>
     {children
       .filter((todo) => todo.isComplete === false)
