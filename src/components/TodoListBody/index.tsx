@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useSelector, useDispatch, shallowEqual } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Dispatch } from "redux";
 import { BiTrash } from "react-icons/bi";
 import { IoMdAdd } from "react-icons/io";
@@ -12,10 +12,7 @@ export const TodoListBody: any = () => {
   const [newTodoTitle, setNewTodoTitle] = React.useState<string>("");
   const dispatch: Dispatch<TodoAction> = useDispatch();
 
-  const todos: TodoState = useSelector(
-    (state: TodoReduxState) => state.todos,
-    shallowEqual
-  );
+  const todos: TodoState = useSelector((state: TodoReduxState) => state.todos);
 
   const addTodo: any = React.useCallback(
     (title: string) => dispatch(addTodoToRoot(title)),
