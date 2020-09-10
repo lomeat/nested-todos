@@ -12,6 +12,7 @@ import {
 } from "../../actions";
 
 import { TodoTree } from "../TodoTree";
+import { Modal } from "../Modal";
 import * as SC from "./styles";
 
 type Props = {
@@ -53,17 +54,17 @@ export const Todo: React.FC<Props> = ({ todo, nestedLevel }) => {
     [dispatch]
   );
 
-  const toggleRemoveModalVisibility = (todo?: ITodo) => {
+  const toggleRemoveModalVisibility = (id?: TodoId) => {
     setIsRemoveModalOpen((state) => !state);
-    if (todo) {
-      remove(todo.id);
+    if (id) {
+      remove(id);
     }
   };
 
-  const toggleAddModalVisibility = (todo?: ITodo) => {
+  const toggleAddModalVisibility = (id?: TodoId) => {
     setIsAddModalOpen((state) => !state);
-    if (todo) {
-      addTodo(todo.id, newTodoTitle);
+    if (id) {
+      addTodo(id, newTodoTitle);
     }
   };
 
@@ -74,8 +75,14 @@ export const Todo: React.FC<Props> = ({ todo, nestedLevel }) => {
   };
 
   const keyEnterPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter" && newTodoTitle.length) {
-      toggleAddModalVisibility(todo);
+    if (e.key === "Enter") {
+      checkAddingTitleLength();
+    }
+  };
+
+  const checkAddingTitleLength = () => {
+    if (newTodoTitle.length) {
+      toggleAddModalVisibility(todo.id);
       setNewTodoTitle("");
     }
   };
@@ -122,50 +129,21 @@ export const Todo: React.FC<Props> = ({ todo, nestedLevel }) => {
           )}
       </SC.ListLeftMargin>
 
-      {isRemoveModalOpen && (
-        <SC.ModalOuter>
-          <SC.ModalInner>
-            <SC.ModalTitle>Are you sure you want to delete?</SC.ModalTitle>
-            <SC.ModalButtonsWrapper>
-              <SC.ModalButton onClick={() => toggleRemoveModalVisibility(todo)}>
-                Yes
-              </SC.ModalButton>
-              <SC.ModalButton onClick={() => toggleRemoveModalVisibility()}>
-                No
-              </SC.ModalButton>
-            </SC.ModalButtonsWrapper>
-          </SC.ModalInner>
-        </SC.ModalOuter>
-      )}
-      {isAddModalOpen && (
-        <SC.ModalOuter>
-          <SC.ModalInner>
-            <SC.ModalTitle>What do you want to do?</SC.ModalTitle>
-            <SC.ModalInput
-              type="text"
-              placeholder="Ex.: Do a homework"
-              onChange={changeNewTodoTitle}
-              value={newTodoTitle}
-              onKeyDown={keyEnterPress}
-            />
-            <SC.ModalButtonsWrapper>
-              <SC.ModalButton
-                onClick={() => {
-                  if (newTodoTitle.length) {
-                    toggleAddModalVisibility(todo);
-                    setNewTodoTitle("");
-                  }
-                }}
-              >
-                Add
-              </SC.ModalButton>
-              <SC.ModalButton onClick={() => toggleAddModalVisibility()}>
-                Cancel
-              </SC.ModalButton>
-            </SC.ModalButtonsWrapper>
-          </SC.ModalInner>
-        </SC.ModalOuter>
-      )}
+      <Modal
+        type="add"
+        args={{
+          changeNewTodoTitle,
+          newTodoTitle,
+          keyEnterPress,
+          checkAddingTitleLength,
+        }}
+        toggleVisibility={toggleAddModalVisibility}
+      />
+      <Modal
+        type="remove"
+        args={{ id: todo.id }}
+        toggleVisibility={toggleAddModalVisibility}
+      />
     </>
   );
 };
