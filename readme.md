@@ -23,10 +23,10 @@ App made for [Digital Spectr](https://digital-spectr.ru/) as test job.
 
 ### Iteration 2
 
-- [ ] Remake on TypeScript
-- [ ] Add state management
+- [x] Remake on TypeScript
+- [x] Add state management
+- [x] Separate code and styles
 - [ ] Divide responsibility between modules
-- [ ] Separate code and styles
 
 <!--
 ## Legend
