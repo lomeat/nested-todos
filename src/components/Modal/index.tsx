@@ -8,22 +8,22 @@ type Props = {
   toggleVisibility: () => {};
   isModalOpen: boolean;
   type: string;
-  args: any;
+  data: any;
 };
 
 export const Modal: any = ({
   toggleVisibility,
   isModalOpen,
   type,
-  args,
+  data,
 }: Props) =>
   isModalOpen && (
     <SC.ModalOuter>
       <SC.ModalInner>
         {type === "add" ? (
-          <AddModal toggle={toggleVisibility} args={args} />
+          <AddModal toggle={toggleVisibility} data={data} />
         ) : (
-          <RemoveModal toggle={toggleVisibility} args={args} />
+          <RemoveModal toggle={toggleVisibility} data={data} />
         )}
       </SC.ModalInner>
     </SC.ModalOuter>

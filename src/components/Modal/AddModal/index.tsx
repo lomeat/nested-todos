@@ -4,7 +4,7 @@ import * as SC from "./styles";
 
 type Props = {
   toggle: () => {};
-  args: {
+  data: {
     changeNewTodoTitle: (e: any) => {};
     newTodoTitle: string;
     keyEnterPress: (e: any) => {};
@@ -12,18 +12,18 @@ type Props = {
   };
 };
 
-export const AddModal: React.FC<Props> = ({ toggle, args }) => (
+export const AddModal: React.FC<Props> = ({ toggle, data }) => (
   <>
     <SC.ModalTitle>What do you want to do?</SC.ModalTitle>
     <SC.ModalInput
       type="text"
       placeholder="Ex.: Do a homework"
-      onChange={args.changeNewTodoTitle}
-      value={args.newTodoTitle}
-      onKeyDown={args.keyEnterPress}
+      onChange={data.changeNewTodoTitle}
+      value={data.newTodoTitle}
+      onKeyDown={data.keyEnterPress}
     />
     <SC.ModalButtonsWrapper>
-      <SC.ModalButton onClick={args.checkAddingTitleLength}>Add</SC.ModalButton>
+      <SC.ModalButton onClick={data.checkAddingTitleLength}>Add</SC.ModalButton>
       <SC.ModalButton onClick={() => toggle()}>Cancel</SC.ModalButton>
     </SC.ModalButtonsWrapper>
   </>
