@@ -131,53 +131,6 @@ export const Todo: React.FC<Props> = ({ todo, nestedLevel }) => {
         toggleVisibility={toggleRemoveModalVisibility}
         isModalOpen={isRemoveModalOpen}
       />
-
-      {/* {isRemoveModalOpen && (
-        <SC.ModalOuter>
-          <SC.ModalInner>
-            <SC.ModalTitle>Are you sure you want to delete?</SC.ModalTitle>
-            <SC.ModalButtonsWrapper>
-              <SC.ModalButton
-                onClick={() => toggleRemoveModalVisibility(todo.id)}
-              >
-                Yes
-              </SC.ModalButton>
-              <SC.ModalButton onClick={() => toggleRemoveModalVisibility()}>
-                No
-              </SC.ModalButton>
-            </SC.ModalButtonsWrapper>
-          </SC.ModalInner>
-        </SC.ModalOuter>
-      )}
-      {isAddModalOpen && (
-        <SC.ModalOuter>
-          <SC.ModalInner>
-            <SC.ModalTitle>What do you want to do?</SC.ModalTitle>
-            <SC.ModalInput
-              type="text"
-              placeholder="Ex.: Do a homework"
-              onChange={changeNewTodoTitle}
-              value={newTodoTitle}
-              onKeyDown={keyEnterPress}
-            />
-            <SC.ModalButtonsWrapper>
-              <SC.ModalButton
-                onClick={() => {
-                  if (newTodoTitle.length) {
-                    toggleAddModalVisibility(todo.id);
-                    setNewTodoTitle("");
-                  }
-                }}
-              >
-                Add
-              </SC.ModalButton>
-              <SC.ModalButton onClick={() => toggleAddModalVisibility()}>
-                Cancel
-              </SC.ModalButton>
-            </SC.ModalButtonsWrapper>
-          </SC.ModalInner>
-        </SC.ModalOuter>
-      )} */}
     </>
   );
 };
