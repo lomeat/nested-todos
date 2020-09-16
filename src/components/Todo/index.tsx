@@ -33,26 +33,11 @@ export const Todo: React.FC<Props> = ({ todo, nestedLevel }) => {
   const [newTodoTitle, setNewTodoTitle] = React.useState<string>("");
 
   const dispatch: Dispatch<TodoAction> = useDispatch();
-
-  const addTodo: any = React.useCallback(
-    (id: TodoId, title: string) => dispatch(addTodoToExist(id, title)),
-    [dispatch]
-  );
-
-  const toggleComplete: any = React.useCallback(
-    (id: TodoId) => dispatch(toggleIsTodoComplete(id)),
-    [dispatch]
-  );
-
-  const toggleShow: any = React.useCallback(
-    (id: TodoId) => dispatch(toggleIsTodoShowChildren(id)),
-    [dispatch]
-  );
-
-  const remove: any = React.useCallback(
-    (id: TodoId) => dispatch(removeTodo(id)),
-    [dispatch]
-  );
+  const toggleComplete = (id: TodoId) => dispatch(toggleIsTodoComplete(id));
+  const toggleShow = (id: TodoId) => dispatch(toggleIsTodoShowChildren(id));
+  const remove = (id: TodoId) => dispatch(removeTodo(id));
+  const addTodo = (id: TodoId, title: string) =>
+    dispatch(addTodoToExist(id, title));
 
   const toggleRemoveModalVisibility = (id?: TodoId) => {
     setIsRemoveModalOpen((state) => !state);

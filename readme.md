@@ -1,4 +1,4 @@
-# Nested Todo App
+# Nested Todo-list
 
 Live project: https://digital-spectr.vercel.app
 
@@ -6,29 +6,17 @@ Live project: https://digital-spectr.vercel.app
 
 Helps you manage your tasks and by nesting them in each other, you can divide tasks into categories. Use local storage for keeping data.
 
-App made for [Digital Spectr](https://digital-spectr.ru/) as test job.
+## Features
 
-## Conditions
+- Adding new todo to the list with pop-up modal form.
+- Deleting only exist completed todo with pop-up modal.
+- Changing visibility of nesting children into exist todo.
+- Mark the list item is done.
+- All completed elements are automatically moved to down of the list at the current nesting level.
+- Limit for nesting levels is 3.
+- Using local storage for keeping todos between user sessions.
+- Made on TypeScript with state management
 
-### Iteration 1
-
-- [x] Adding an item to the list. When you click the ADD ITEM button, a pop-up window opens with a form.
-- [x] Deleting a list item (should be available only for already completed items). When you click the DELETE button, a pop-up window appears “Are you sure you want to delete the item?”
-- [x] Mark the list item as done (checkbox)
-- [x] All completed elements are automatically moved to the end of the list at the current nesting level
-- [x] For external design, you can use frameworks like bootstrap
-- [x] Limit the allowed nesting of elements to 3 levels
-- [x] "Show/Hide" button to control visibility of children todos
-- [x] Use local storage for keeping todos
-
-### Iteration 2
-
-- [x] Remake on TypeScript
-- [x] Add state management
-- [x] Separate code and styles
-- [x] Divide responsibility between modules
-
-<!--
 ## Legend
 
 ### Commits
@@ -40,11 +28,10 @@ App made for [Digital Spectr](https://digital-spectr.ru/) as test job.
 - **init**: Configure the setup of project
 - **styl**: Style the components
 
- ---
-
 ## Roadmap
 
-- [ ] Add Redux or MobX to manage state
+- [x] Add Redux or MobX to manage state
+- [x] Remake with TypeScript
 - [ ] Remake core logic with state update
 - [ ] Create other UI components
 - [ ] Add Drag & Drop with nesting elements
@@ -53,4 +40,4 @@ App made for [Digital Spectr](https://digital-spectr.ru/) as test job.
 - [ ] Complete all children elements when parent completed
 - [ ] Remove only completed todos ant their children
 - [ ] Toggle dark/light theme
-- [ ] Mobile support -->
+- [ ] Mobile support
