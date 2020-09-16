@@ -1,6 +1,6 @@
 # Nested Todo-list
 
-Live project: https://digital-spectr.vercel.app
+Live project: https://nested-todos.vercel.app/
 
 ## Description
 
