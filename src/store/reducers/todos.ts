@@ -6,7 +6,7 @@ import {
   TODO_TOGGLE_SHOW_CHILDREN,
   ALL_TODOS_REMOVE,
 } from "../constants/actionTypes";
-import { todosMock, newTodoMock } from "../mock";
+import { todosMock, newTodoMock } from "../../mock";
 
 let initState: TodoState;
 const local: string | null = localStorage.getItem("todos");

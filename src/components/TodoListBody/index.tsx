@@ -5,7 +5,7 @@ import { BiTrash } from "react-icons/bi";
 import { IoMdAdd } from "react-icons/io";
 
 import { TodoTree } from "../TodoTree";
-import { addTodoToRoot, removeAllTodos } from "../../actions";
+import { addTodoToRoot, removeAllTodos } from "../../store/actions";
 import * as SC from "./styles";
 
 export const TodoListBody: any = () => {

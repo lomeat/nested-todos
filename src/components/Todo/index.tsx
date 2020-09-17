@@ -9,7 +9,7 @@ import {
   toggleIsTodoComplete,
   toggleIsTodoShowChildren,
   removeTodo,
-} from "../../actions";
+} from "../../store/actions";
 
 import { TodoTree } from "../TodoTree";
 import { Modal } from "../Modal";
