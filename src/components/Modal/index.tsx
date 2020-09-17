@@ -16,15 +16,19 @@ export const Modal: any = ({
   isModalOpen,
   type,
   data,
-}: Props) =>
-  isModalOpen && (
-    <SC.ModalOuter>
-      <SC.ModalInner>
-        {type === "add" ? (
-          <AddModal toggle={toggleVisibility} data={data} />
-        ) : (
-          <RemoveModal toggle={toggleVisibility} data={data} />
-        )}
-      </SC.ModalInner>
-    </SC.ModalOuter>
+}: Props) => {
+  const renderTypeModal = (type: string) => {
+    if (type === "add")
+      return <AddModal toggle={toggleVisibility} data={data} />;
+    else if (type === "remove")
+      return <RemoveModal toggle={toggleVisibility} data={data} />;
+  };
+
+  return (
+    isModalOpen && (
+      <SC.ModalOuter>
+        <SC.ModalInner>{renderTypeModal(type)}</SC.ModalInner>
+      </SC.ModalOuter>
+    )
   );
+};
