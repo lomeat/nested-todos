@@ -14,14 +14,8 @@ export const TodoListBody: any = () => {
 
   const todos: TodoState = useSelector((state: TodoReduxState) => state.todos);
 
-  const addTodo: any = React.useCallback(
-    (title: string) => dispatch(addTodoToRoot(title)),
-    [dispatch]
-  );
-
-  const removeAll: any = React.useCallback(() => dispatch(removeAllTodos()), [
-    dispatch,
-  ]);
+  const addTodo: any = (title: string) => dispatch(addTodoToRoot(title));
+  const removeAll: any = () => dispatch(removeAllTodos());
 
   const changeNewTodoTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -29,14 +23,13 @@ export const TodoListBody: any = () => {
     setNewTodoTitle(value);
   };
 
-  const keyEnterPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.keyCode === 13 && newTodoTitle.length) {
-      addTodo(newTodoTitle);
-      setNewTodoTitle("");
+  const handleKeyEnterDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.keyCode === 13) {
+      checkTitleLength();
     }
   };
 
-  const clickAddTodoButton = () => {
+  const checkTitleLength = () => {
     if (newTodoTitle.length) {
       addTodo(newTodoTitle);
       setNewTodoTitle("");
@@ -51,9 +44,9 @@ export const TodoListBody: any = () => {
           placeholder="Ex.: Do a homework"
           value={newTodoTitle}
           onChange={changeNewTodoTitle}
-          onKeyDown={keyEnterPress}
+          onKeyDown={handleKeyEnterDown}
         />
-        <SC.AddNewTodoButton onClick={clickAddTodoButton}>
+        <SC.AddNewTodoButton onClick={checkTitleLength}>
           <IoMdAdd />
         </SC.AddNewTodoButton>
         <SC.RemoveAllButton onClick={removeAll}>
