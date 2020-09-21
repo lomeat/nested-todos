@@ -5,6 +5,7 @@ import {
   TODO_TOGGLE_COMPLETE,
   TODO_TOGGLE_SHOW_CHILDREN,
   ALL_TODOS_REMOVE,
+  TodoActionTypes,
 } from "../constants/actionTypes";
 import { todosMock, newTodoMock } from "../../mock";
 
@@ -27,7 +28,7 @@ const newTodo = newTodoMock;
 // - action: action object for dispatcher
 // - temp?: temporary data for comparsion and iteration over the initial state
 // - nextTodos?: finished list of changed todos
-export const todos = (
+export const todosReducer = (
   prevTodos: TodoState = initState,
   action: TodoAction,
   temp: any = {},
@@ -86,7 +87,7 @@ export const todos = (
           }
 
           if (temp[a].length) {
-            todos(prevTodos[a][b], action, temp[a][b], nextTodos);
+            todosReducer(prevTodos[a][b], action, temp[a][b], nextTodos);
           }
           nextTodos = { ...temp };
         }

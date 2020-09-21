@@ -1,4 +1,5 @@
 type TodoId = number;
+type TodoTitle = string;
 
 interface ITodo {
   id: TodoId;
@@ -10,18 +11,18 @@ interface ITodo {
 
 type Tree = ITodo[];
 
-type TodoState = {
+interface TodoState {
   children: Tree;
-};
+}
 
-type TodoReduxState = {
+interface TodoReduxState {
   todos: TodoState;
-};
+}
 
-type TodoAction = {
+interface TodoAction {
   type: string;
   id?: TodoId;
   title?: string;
-};
+}
 
 type DispatchTodoType = (args: TodoAction) => TodoAction;
