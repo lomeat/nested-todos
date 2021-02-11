@@ -38,18 +38,19 @@ export const TodoListBody: any = () => {
 
   return (
     <>
-      <SC.EditListWrapper>
+      <SC.EditListWrapper onSubmit={checkTitleLength} onReset={removeAll}>
         <SC.Input
           type="text"
           placeholder="Ex.: Do a homework"
           value={newTodoTitle}
           onChange={changeNewTodoTitle}
           onKeyDown={handleKeyEnterDown}
+          autoFocus
         />
-        <SC.AddNewTodoButton onClick={checkTitleLength}>
+        <SC.AddNewTodoButton type="submit">
           <IoMdAdd />
         </SC.AddNewTodoButton>
-        <SC.RemoveAllButton onClick={removeAll}>
+        <SC.RemoveAllButton type="reset">
           <BiTrash />
         </SC.RemoveAllButton>
       </SC.EditListWrapper>

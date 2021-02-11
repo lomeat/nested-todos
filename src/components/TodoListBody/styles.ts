@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const EditListWrapper = styled.div`
+export const EditListWrapper = styled.form`
   display: flex;
   padding: 80px 0 40px 0;
 `;

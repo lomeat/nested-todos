@@ -27,7 +27,6 @@ export const Modal: any = ({
   return (
     isModalOpen && (
       <SC.ModalOuter
-        onClick={toggleVisibility}
         id="outer"
         initial={[
           {
