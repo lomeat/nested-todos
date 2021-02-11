@@ -21,6 +21,7 @@ export const AddModal: React.FC<Props> = ({ toggle, data }) => (
       onChange={data.changeNewTodoTitle}
       value={data.newTodoTitle}
       onKeyDown={data.keyEnterPress}
+      autoFocus
     />
     <SC.ModalButtonsWrapper>
       <SC.ModalButton onClick={data.checkAddingTitleLength}>Add</SC.ModalButton>
