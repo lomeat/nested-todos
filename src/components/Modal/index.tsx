@@ -26,8 +26,30 @@ export const Modal: any = ({
 
   return (
     isModalOpen && (
-      <SC.ModalOuter>
-        <SC.ModalInner>{renderTypeModal(type)}</SC.ModalInner>
+      <SC.ModalOuter
+        onClick={toggleVisibility}
+        id="outer"
+        initial={[
+          {
+            targets: "#outer",
+            background: "rgba(0, 0, 0, 0.3)",
+            easing: "linear",
+            duration: 500,
+          },
+        ]}
+      >
+        <SC.ModalInner
+          id="inner"
+          initial={[
+            {
+              targets: "#inner",
+              duration: 500,
+              top: "35%",
+            },
+          ]}
+        >
+          {renderTypeModal(type)}
+        </SC.ModalInner>
       </SC.ModalOuter>
     )
   );

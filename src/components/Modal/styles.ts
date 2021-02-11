@@ -1,20 +1,23 @@
 import styled from "styled-components";
+import ReactAnim from "react-animejs";
 
-export const ModalOuter = styled.div`
-  position: absolute;
+const { Anime } = ReactAnim;
+
+export const ModalOuter = styled(Anime)`
+  position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  box-sizing: border-box;
-  background: rgba(0, 0, 0, 0.3);
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  background: transparent;
+  z-index: 1;
 `;
 
-export const ModalInner = styled.div`
-  z-index: 1;
+export const ModalInner = styled(Anime)`
+  position: fixed;
+  top: -20%;
+  left: 35%;
+  z-index: 2;
   background: white;
   padding: 20px;
   border-radius: 8px;

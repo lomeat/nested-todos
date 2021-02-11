@@ -32,11 +32,11 @@ Helps you manage your tasks and by nesting them in each other, you can divide ta
 
 - [x] Add Redux or MobX to manage state
 - [x] Remake with TypeScript
-- [x] Add animations (show/hide inner todo tree)
+- [x] Add show/hide inner todo tree animations
+- [x] Add opening modal animations
 - [ ] Remake core logic with state update
 - [ ] Create other UI components
 - [ ] Add Drag & Drop with nesting elements
-- [ ] Add animations (adding/removing)
 - [ ] Redesign with simple but accent colors
 - [ ] Complete all children elements when parent completed
 - [ ] Remove only completed todos and their children

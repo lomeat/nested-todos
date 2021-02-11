@@ -13,8 +13,10 @@
   "dependencies": {
     "@types/react-redux": "^7.1.9",
     "@types/redux": "^3.6.0",
+    "animejs": "^3.2.1",
     "normalize.css": "^8.0.1",
     "react": "^16.13.1",
+    "react-animejs": "^0.5.4",
     "react-dom": "^16.13.1",
     "react-icons": "^3.11.0",
     "react-redux": "^7.2.1",
@@ -27,6 +29,7 @@
     "@babel/preset-env": "^7.11.0",
     "@babel/preset-react": "^7.10.4",
     "@babel/preset-typescript": "^7.10.4",
+    "@types/animejs": "^3.1.2",
     "@types/fork-ts-checker-webpack-plugin": "^0.4.5",
     "@types/react": "^16.9.49",
     "@types/react-dom": "^16.9.8",
