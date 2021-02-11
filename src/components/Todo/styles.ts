@@ -48,6 +48,7 @@ export const Button = styled.button`
   :first-child {
     margin-left: 0;
   }
+
   :hover {
     cursor: pointer;
     color: black;
@@ -69,16 +70,29 @@ export const Checkbox = styled.button`
   }
 `;
 
-type ToggleChildrenButtonProps = {
-  isShowChildren: boolean;
+type showChildrenProps = {
+  delayShowChildren: boolean;
+  delayTime?: number;
 };
 
-export const ToggleChildrenButton = styled(Button)<ToggleChildrenButtonProps>`
+export const ToggleChildrenButton = styled(Button)<showChildrenProps>`
   font-size: 28px;
   svg {
-    transition: 0.2s ease;
-    transform: ${(props) => (props.isShowChildren ? "rotate(-90deg)" : "")};
+    transition: 0.4s ease;
+    transform: ${(props) => (props.delayShowChildren ? "rotate(180deg)" : "")};
   }
+`;
+
+export const ListLeftMargin = styled.div<showChildrenProps>`
+  margin-left: 20px;
+  overflow: hidden;
+
+  transition: max-height
+    ${(props) =>
+      props.delayShowChildren
+        ? `${props.delayTime}ms ease-in`
+        : `${props.delayTime}ms ease-out`};
+  max-height: ${(props) => (props.delayShowChildren ? "1000px" : "0px")};
 `;
 
 export const AddButton = styled(Button)``;
@@ -87,10 +101,6 @@ export const RemoveButton = styled(Button)`
   svg {
     transform: rotate(45deg);
   }
-`;
-
-export const ListLeftMargin = styled.div`
-  margin-left: 20px;
 `;
 
 export const ModalOuter = styled.div`

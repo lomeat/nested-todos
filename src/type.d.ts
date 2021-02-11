@@ -3,7 +3,7 @@ type TodoTitle = string;
 
 interface ITodo {
   id: TodoId;
-  title: string;
+  title: TodoTitle;
   isComplete: boolean;
   isShowChildren: boolean;
   children: ITodo[];

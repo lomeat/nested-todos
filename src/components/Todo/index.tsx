@@ -1,5 +1,5 @@
 import * as React from "react";
-import { BiChevronLeft } from "react-icons/bi";
+import { BiChevronDown } from "react-icons/bi";
 import { GrCheckbox, GrCheckboxSelected } from "react-icons/gr";
 import { IoMdAdd } from "react-icons/io";
 import { useDispatch } from "react-redux";
@@ -26,11 +26,19 @@ export const Todo: React.FC<Props> = ({ todo, nestedLevel }) => {
   // ...to make limit
   const nestedLimit = 3;
 
+  nestedLevel += 1;
+
   const [isRemoveModalOpen, setIsRemoveModalOpen] = React.useState<boolean>(
     false
   );
   const [isAddModalOpen, setIsAddModalOpen] = React.useState<boolean>(false);
   const [newTodoTitle, setNewTodoTitle] = React.useState<string>("");
+  const [delayShowChildren, setDelayShowChildren] = React.useState<boolean>(
+    todo.isShowChildren
+  );
+  const [delayTimeAnimation, setDelayTimeAnimation] = React.useState<number>(
+    500
+  );
 
   const dispatch: Dispatch<TodoAction> = useDispatch();
   const toggleComplete = (id: TodoId) => dispatch(toggleIsTodoComplete(id));
@@ -72,6 +80,19 @@ export const Todo: React.FC<Props> = ({ todo, nestedLevel }) => {
     }
   };
 
+  // Delay list showing for smooth dropdown animation
+  const delayToggleShow = (id: TodoId): void => {
+    setDelayShowChildren(!delayShowChildren);
+
+    if (!delayShowChildren) {
+      toggleShow(id);
+    } else {
+      setTimeout(() => {
+        toggleShow(id);
+      }, 500);
+    }
+  };
+
   return (
     <>
       <SC.Wrapper key={todo.id}>
@@ -87,10 +108,10 @@ export const Todo: React.FC<Props> = ({ todo, nestedLevel }) => {
         <SC.ButtonsWrapper>
           {nestedLevel < nestedLimit && todo.children.length > 0 && (
             <SC.ToggleChildrenButton
-              onClick={() => toggleShow(todo.id)}
-              isShowChildren={todo.isShowChildren}
+              onClick={() => delayToggleShow(todo.id)}
+              delayShowChildren={delayShowChildren}
             >
-              {todo.isShowChildren ? <BiChevronLeft /> : <BiChevronLeft />}
+              <BiChevronDown />
             </SC.ToggleChildrenButton>
           )}
           {todo.isComplete && (
@@ -106,7 +127,10 @@ export const Todo: React.FC<Props> = ({ todo, nestedLevel }) => {
         </SC.ButtonsWrapper>
       </SC.Wrapper>
 
-      <SC.ListLeftMargin>
+      <SC.ListLeftMargin
+        delayShowChildren={delayShowChildren}
+        delayTime={delayTimeAnimation}
+      >
         {todo.children &&
           newNestedLevel <= nestedLimit &&
           todo.isShowChildren && (
