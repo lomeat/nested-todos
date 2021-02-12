@@ -30,6 +30,10 @@ export const Title = styled.span<TitleProps>`
   align-items: center;
   color: ${(props) => props.theme.color};
   transition: 0.4s ease;
+
+  @media screen and (max-width: 500px) {
+    font-size: 22px;
+  }
 `;
 
 export const ButtonsWrapper = styled.div`

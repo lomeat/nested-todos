@@ -31,7 +31,7 @@ export const App = () => {
   );
 };
 
-export const Wrapper = styled.div`
+const Wrapper = styled.div`
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -40,12 +40,21 @@ export const Wrapper = styled.div`
   background: ${(props) => props.theme.background};
   color: ${(props) => props.theme.color};
   transition: 0.4s ease;
+
+  @media (max-width: 500px) {
+    align-items: flex-start;
+  }
 `;
 
-export const Container = styled.div`
+const Container = styled.div`
   width: 600px;
   padding: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  @media (max-width: 500px) {
+    width: 100%;
+    justify-content: flex-start;
+  }
 `;

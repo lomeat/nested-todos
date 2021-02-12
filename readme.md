@@ -34,11 +34,11 @@ Helps you manage your tasks and by nesting them in each other, you can divide ta
 - [x] Remake with TypeScript
 - [x] Add show/hide inner todo tree animations
 - [x] Add opening modal animations
+- [x] Toggle dark/light theme
 - [ ] Remake core logic with state update
 - [ ] Create other UI components
 - [ ] Add Drag & Drop with nesting elements
 - [ ] Redesign with simple but accent colors
 - [ ] Complete all children elements when parent completed
 - [ ] Remove only completed todos and their children
-- [ ] Toggle dark/light theme
 - [ ] Mobile support
