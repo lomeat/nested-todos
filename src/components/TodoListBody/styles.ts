@@ -28,7 +28,7 @@ export const Button = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #777;
+  color: ${(props) => props.theme.iconColor};
   transition: 0.1s ease;
 
   :first-child {
@@ -36,8 +36,8 @@ export const Button = styled.button`
   }
   :hover {
     cursor: pointer;
-    color: black;
-    background: #ddd;
+    color: ${(props) => props.theme.color};
+    background: rgba(0, 0, 0, 0.1);
   }
 `;
 

@@ -18,7 +18,7 @@ export const ModalInner = styled(Anime)`
   top: -20%;
   left: 35%;
   z-index: 2;
-  background: white;
+  background: ${(props) => props.theme.background};
   padding: 20px;
   border-radius: 8px;
   width: 500px;

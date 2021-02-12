@@ -11,8 +11,9 @@ export const Wrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   min-height: 40px;
+  transition: 0.1s ease;
   :hover {
-    background: #ddd;
+    background: rgba(0, 0, 0, 0.1);
   }
 `;
 
@@ -27,6 +28,8 @@ export const Title = styled.span<TitleProps>`
   font-weight: 400;
   display: flex;
   align-items: center;
+  color: ${(props) => props.theme.color};
+  transition: 0.4s ease;
 `;
 
 export const ButtonsWrapper = styled.div`
@@ -42,7 +45,7 @@ export const Button = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #777;
+  color: ${(props) => props.theme.iconColor};
   transition: 0.1s ease;
 
   :first-child {
@@ -51,8 +54,8 @@ export const Button = styled.button`
 
   :hover {
     cursor: pointer;
-    color: black;
-    background: #ddd;
+    color: ${(props) => props.theme.color};
+    background: rgba(0, 0, 0, 0.1);
   }
 `;
 
@@ -65,8 +68,17 @@ export const Checkbox = styled.button`
   justify-content: center;
   align-items: center;
   margin-right: 6px;
+  transition: 0.4s ease;
+  color: ${(props) => props.theme.color};
   :hover {
     cursor: pointer;
+  }
+
+  svg {
+    rect {
+      transition: 0.4s ease;
+      stroke: ${(props) => props.theme.color};
+    }
   }
 `;
 

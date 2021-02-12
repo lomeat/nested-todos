@@ -10,7 +10,9 @@ export const ModalInput = styled.input`
   border-radius: 8px;
   border: 1px solid #ccc;
   padding: 6px 12px;
+  color: ${(props) => props.theme.color};
   font-size: 16px;
+  background: rgba(0, 0, 0, 0.2);
   :focus {
     border-color: lightsteelblue;
   }
@@ -22,6 +24,7 @@ export const ModalButtonsWrapper = styled.div`
 
 export const ModalButton = styled.button`
   margin-left: 10px;
+  color: ${(props) => props.theme.color};
   background: transparent;
   border: 1px solid #ccc;
   padding: 8px 20px;
@@ -33,7 +36,7 @@ export const ModalButton = styled.button`
   }
   :hover {
     cursor: pointer;
-    background: #eee;
+    background: rgba(0, 0, 0, 0.3);
   }
   :active {
     border-color: lightsteelblue;

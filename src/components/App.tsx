@@ -1,17 +1,35 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { ThemeProvider } from "styled-components";
 
 import { Header } from "./Header";
 import { TodoListBody } from "./TodoListBody";
+import { theme, Theme } from "../theme";
 
-export const App = () => (
-  <Wrapper>
-    <Container>
-      <Header />
-      <TodoListBody />
-    </Container>
-  </Wrapper>
-);
+export const App = () => {
+  const storageTheme = JSON.parse(localStorage.getItem("theme") as string);
+  const [currentTheme, setCurrentTheme] = React.useState(
+    storageTheme || theme.light
+  );
+
+  const toggleTheme = (): void => {
+    setCurrentTheme((state: React.SetStateAction<string | Theme>) => {
+      const newState = state === theme.light ? theme.dark : theme.light;
+      localStorage.setItem("theme", JSON.stringify(newState));
+      return newState;
+    });
+  };
+
+  return (
+    <ThemeProvider theme={currentTheme}>
+      <Wrapper>
+        <Container>
+          <Header toggleTheme={toggleTheme} />
+          <TodoListBody />
+        </Container>
+      </Wrapper>
+    </ThemeProvider>
+  );
+};
 
 export const Wrapper = styled.div`
   width: 100vw;
@@ -19,7 +37,9 @@ export const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #f4f4f4;
+  background: ${(props) => props.theme.background};
+  color: ${(props) => props.theme.color};
+  transition: 0.4s ease;
 `;
 
 export const Container = styled.div`

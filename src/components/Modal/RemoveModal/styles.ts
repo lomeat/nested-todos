@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const ModalTitle = styled.h2`
   font-family: "Roboto", sans;
   padding-bottom: 40px;
+  color: ${(props) => props.theme.color};
 `;
 
 export const ModalButtonsWrapper = styled.div`
@@ -16,13 +17,14 @@ export const ModalButton = styled.button`
   padding: 8px 20px;
   border-radius: 8px;
   font-family: "Roboto", sans-serif;
+  color: ${(props) => props.theme.color};
   transition: 0.1s ease;
   :first-child {
     margin-left: 0;
   }
   :hover {
     cursor: pointer;
-    background: #eee;
+    background: rgba(0, 0, 0, 0.3);
   }
   :active {
     border-color: lightsteelblue;
