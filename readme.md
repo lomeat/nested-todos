@@ -1,6 +1,8 @@
 # Nested Todo-list
 
-Live project: https://nested-todos.vercel.app/
+![visitors](https://visitor-badge.laobi.icu/badge?page_id=lomeat.nested-todos)
+
+[Link to app](https://nested-todos.vercel.app/)
 
 ## Description
 
